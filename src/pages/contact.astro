@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+<BaseLayout title="Contact | ADMI" description="Contact ADMI">
+  <div class="page-title"><div class="container"><h1>Contact</h1></div></div>
+  <Breadcrumbs items={[{ label: 'Contact' }]} />
+  <section class="section"><div class="container"><p>Email: <a href='mailto:admi@mu.ac.in'>admi@mu.ac.in</a><br/>Address: Vidyanagari Campus, Mumbai.</p></div></section>
+</BaseLayout>

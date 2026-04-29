@@ -1,0 +1,4 @@
+---
+const { notice } = Astro.props;
+---
+<article class="card"><h3>{notice.data.title}</h3><p><strong>{notice.data.category}</strong> · {notice.data.date.toLocaleDateString('en-IN')}</p><p>{notice.data.description}</p>{notice.data.fileUrl && <a href={notice.data.fileUrl} target="_blank" rel="noopener noreferrer">Open Notice</a>}</article>

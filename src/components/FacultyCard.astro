@@ -1,0 +1,4 @@
+---
+const { member } = Astro.props;
+---
+<article class="card"><h3><a href={`/faculty/${member.slug}/`}>{member.data.name}</a></h3><p>{member.data.designation}</p><p>{member.data.qualification}</p></article>

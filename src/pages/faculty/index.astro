@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FacultyCard from '../../components/FacultyCard.astro';
+import { getCollection } from 'astro:content';
+const faculty=await getCollection('faculty');
+---
+<BaseLayout title="Faculty | ADMI" description="Faculty members"><div class="page-title"><div class="container"><h1>Faculty</h1></div></div><Breadcrumbs items={[{label:'Faculty'}]} /><section class="section"><div class="container grid cards-3">{faculty.map((m)=><FacultyCard member={m} />)}</div></section></BaseLayout>

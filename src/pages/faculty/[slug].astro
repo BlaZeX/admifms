@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
+export async function getStaticPaths(){ const faculty=await getCollection('faculty'); return faculty.map((m)=>({params:{slug:m.slug},props:{member:m}})); }
+const { member }=Astro.props;
+---
+<BaseLayout title={`${member.data.name} | Faculty | ADMI`} description={member.data.bio}><div class="page-title"><div class="container"><h1>{member.data.name}</h1></div></div><Breadcrumbs items={[{label:'Faculty',href:'/faculty/'},{label:member.data.name}]} /><section class="section"><div class="container"><p>{member.data.designation}</p><p>{member.data.qualification}</p><p><a href={`mailto:${member.data.email}`}>{member.data.email}</a></p><p><strong>Areas:</strong> {member.data.areas.join(', ')}</p><p>{member.data.bio}</p></div></section></BaseLayout>

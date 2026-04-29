@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProgramCard from '../../components/ProgramCard.astro';
+---
+<BaseLayout title="Programs | ADMI" description="Programs offered by ADMI.">
+<div class="page-title"><div class="container"><h1>Programs</h1></div></div>
+<Breadcrumbs items={[{label:'Programs'}]} />
+<section class="section"><div class="container grid cards-3">
+<ProgramCard title="BMS" href="/programs/bms/" description="Undergraduate management program." />
+<ProgramCard title="MMS" href="/programs/mms/" description="Master of Management Studies." />
+<ProgramCard title="M.Sc. Finance" href="/programs/msc-finance/" description="Postgraduate finance program." />
+<ProgramCard title="PhD" href="/programs/phd/" description="Doctoral pathways in management and finance." />
+<ProgramCard title="B.Com (Retail Operations Management) (AEDP)" href="/programs/bcom-retail-operations-management/" isNew={true} description="Newly introduced program with practical orientation." />
+</div></section>
+</BaseLayout>

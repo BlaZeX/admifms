@@ -1,0 +1,4 @@
+---
+const { title, href, isNew = false, description } = Astro.props;
+---
+<article class="card"><h3><a href={href}>{title}</a>{isNew && <span class="badge">New</span>}</h3><p>{description}</p></article>
