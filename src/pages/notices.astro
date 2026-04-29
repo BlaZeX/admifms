@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import NoticeCard from '../components/NoticeCard.astro';
+import { getCollection } from 'astro:content';
+const notices=(await getCollection('notices')).sort((a,b)=>b.data.date-a.data.date);
+---
+<BaseLayout title="Notices | ADMI" description="Official notices."><div class="page-title"><div class="container"><h1>Notices</h1></div></div><Breadcrumbs items={[{label:'Notices'}]} /><section class="section"><div class="container grid cards-3">{notices.map((n)=><NoticeCard notice={n} />)}</div></section></BaseLayout>

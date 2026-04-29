@@ -1,0 +1,4 @@
+---
+const { item } = Astro.props;
+---
+<article class="card"><h3>{item.data.title}</h3><p>{item.data.date.toLocaleDateString('en-IN')}</p><p>{item.data.description}</p><a href={item.data.fileUrl} target="_blank" rel="noopener noreferrer">Download</a></article>

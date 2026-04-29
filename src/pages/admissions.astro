@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+<BaseLayout title="Admissions | ADMI" description="Admissions information">
+  <div class="page-title"><div class="container"><h1>Admissions</h1></div></div>
+  <Breadcrumbs items={[{ label: 'Admissions' }]} />
+  <section class="section"><div class="container"><p>Admissions are processed as per University of Mumbai and statutory norms. Details to be updated by the institute.</p><p><a href='https://forms.gle/example' target='_blank' rel='noopener noreferrer'>Admission Enquiry Form</a></p></div></section>
+</BaseLayout>

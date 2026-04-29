@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import EventCard from '../components/EventCard.astro';
+import { getCollection } from 'astro:content';
+const events=await getCollection('events');
+const upcoming=events.filter(e=>e.data.status==='upcoming');
+const past=events.filter(e=>e.data.status==='past');
+---
+<BaseLayout title="Events | ADMI" description="ADMI events"><div class="page-title"><div class="container"><h1>Events</h1></div></div><Breadcrumbs items={[{label:'Events'}]} /><section class="section"><div class="container"><h2>Upcoming</h2><div class="grid cards-3">{upcoming.map((e)=><EventCard event={e} />)}</div><h2>Past</h2><div class="grid cards-3">{past.map((e)=><EventCard event={e} />)}</div></div></section></BaseLayout>
