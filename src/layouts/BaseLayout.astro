@@ -10,4 +10,4 @@ const { title, description } = Astro.props;
 <title>{title}</title><meta name="description" content={description} />
 <meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:type" content="website" />
 </head>
-<body><Header /><slot /><Footer /></body></html>
+<body><Header /><main id="main-content"><slot /></main><Footer /></body></html>
