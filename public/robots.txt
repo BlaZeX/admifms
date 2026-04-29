@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://admi.mu.ac.in/sitemap-index.xml

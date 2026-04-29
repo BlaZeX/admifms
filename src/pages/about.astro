@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+<BaseLayout title="About | ADMI" description="About ADMI">
+  <div class="page-title"><div class="container"><h1>About</h1></div></div>
+  <Breadcrumbs items={[{ label: 'About' }]} />
+  <section class="section"><div class="container"><p>ADMI, established in 1994, is a department of the University of Mumbai located at Vidyanagari campus near Bandra-Kurla Complex.</p></div></section>
+</BaseLayout>

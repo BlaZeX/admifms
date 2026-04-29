@@ -1,0 +1,4 @@
+---
+const { event } = Astro.props;
+---
+<article class="card"><h3>{event.data.title}</h3><p>{event.data.date.toLocaleDateString('en-IN')} · {event.data.location}</p><p>{event.data.description}</p></article>

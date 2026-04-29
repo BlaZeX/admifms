@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProgramCard from '../components/ProgramCard.astro';
+import NoticeCard from '../components/NoticeCard.astro';
+import EventCard from '../components/EventCard.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import CTASection from '../components/CTASection.astro';
+import { getCollection } from 'astro:content';
+const notices=(await getCollection('notices')).sort((a,b)=>b.data.date-a.data.date).slice(0,5);
+const events=(await getCollection('events')).slice(0,3);
+---
+<BaseLayout title="ADMI | University of Mumbai" description="Official website of ADMI, University of Mumbai.">
+<Hero />
+<section class="section"><div class="container"><SectionHeader title="About ADMI" subtitle="Established in 1994 at Vidyanagari campus near BKC." /><p>ADMI is a department of the University of Mumbai focused on management and financial studies with a commitment to academic standards and societal relevance.</p></div></section>
+<section class="section"><div class="container"><SectionHeader title="Programs" /><div class="grid cards-3"><ProgramCard title="BMS" href="/programs/bms/" description="Undergraduate management foundation." /><ProgramCard title="MMS" href="/programs/mms/" description="Postgraduate management education." /><ProgramCard title="M.Sc. Finance" href="/programs/msc-finance/" description="Advanced finance specialization." /><ProgramCard title="PhD" href="/programs/phd/" description="Doctoral research pathways." /><ProgramCard title="B.Com (Retail Operations Management) (AEDP)" href="/programs/bcom-retail-operations-management/" isNew={true} description="New skill-oriented industry-linked program." /></div></div></section>
+<section class="section"><div class="container"><SectionHeader title="Latest Notices" /><div class="grid cards-3">{notices.map((notice)=><NoticeCard notice={notice} />)}</div></div></section>
+<section class="section"><div class="container"><SectionHeader title="Events & Highlights" /><div class="grid cards-3">{events.map((event)=><EventCard event={event} />)}</div></div></section>
+<section class="section"><div class="container"><SectionHeader title="Research Preview" /><p>Faculty and scholars at ADMI contribute to management and finance literature through applied and policy-relevant work.</p><a href="/research/">View Research</a></div></section>
+<CTASection />
+</BaseLayout>
