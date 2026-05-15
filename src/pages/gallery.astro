@@ -11,6 +11,32 @@ const albums = await getCollection('gallery');
 <BaseLayout title="Gallery" description="ADMIFMS gallery albums for events, workshops, seminars, student activities, and campus photographs.">
 <PageHero eyebrow="Gallery" title="Gallery" subtitle="Event-wise albums, seminars, workshops, student activities, and campus photographs. Real approved institute photos can be added later." />
 <Breadcrumbs items={[{label:'Gallery'}]} />
-<section class="section"><div class="container"><SectionHeader title="Photo Albums" /><div class="grid cards-3">{albums.map((item)=><GalleryCard item={item} />)}</div></div></section>
+<section class="section"><div class="container"><SectionHeader title="Photo Albums" /><div id="dynamic-gallery-albums" class="grid cards-3">{albums.map((item)=><GalleryCard item={item} />)}</div></div></section>
 <section class="section"><div class="container grid cards-3"><InfoCard title="Workshop / Seminar Photos" text="Approved photographs can be uploaded to the static project and referenced in gallery content." /><InfoCard title="Student Activities" text="Student committee and event photographs can be added after approval." /><InfoCard title="Photo Usage Note" text="Photos should be published only with institute approval and appropriate consent where applicable." /></div></section>
 </BaseLayout>
+
+<script>
+  import { fetchSheet, normalizeDriveLink } from '../utils/googleSheets.js';
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const gallery = await fetchSheet('Gallery');
+    if (gallery && gallery.length > 0) {
+      const gc = document.getElementById('dynamic-gallery-albums');
+      if (gc) {
+        gc.innerHTML = gallery.map(item => `
+          <article class="card gallery-card">
+            ${item.ImageLink ? `<img src="${normalizeDriveLink(item.ImageLink)}" alt="${item.Title || ''}" class="image-placeholder" style="width:100%; height:200px; object-fit:cover; border:none; background:none; border-bottom:1px solid var(--border);"/>` : `<div class="image-placeholder">No Image</div>`}
+            <div style="padding: 1.5rem;">
+              <div class="card-meta">
+                ${item.Category ? `<span class="badge" style="background:var(--blue-100); color:var(--navy-900);">${item.Category}</span>` : ''}
+                ${item.Date ? `<time>${item.Date}</time>` : ''}
+              </div>
+              <h3 style="margin-top:0.5rem; margin-bottom:0.5rem;">${item.Title || 'Album'}</h3>
+              ${item.Description ? `<p class="muted" style="margin-bottom:0;">${item.Description}</p>` : ''}
+            </div>
+          </article>
+        `).join('');
+      }
+    }
+  });
+</script>

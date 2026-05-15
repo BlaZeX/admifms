@@ -12,7 +12,6 @@ import ButtonLink from '../components/ButtonLink.astro';
 import { getCollection } from 'astro:content';
 const steps = ['Student registration','Student profiling','Training and readiness activities','Recruiter outreach','Pre-placement talk','Application / shortlisting','Interviews / assessments','Final selection','Joining / internship follow-up'];
 const activities = ['Resume-building sessions','Mock interviews','Group discussion practice','Aptitude / analytical preparation','Advanced MS Excel training','Corporate grooming','Alumni mentoring','Career-pe-Charcha','Campus to Corporate Lecture Series','Corporate Mock Interviews','Summer Internship Awards','Budget Prediction Competition','ADM Memorial Lectures'];
-const reports = (await getCollection('placementReports')).filter((report)=>report.data.approved);
 ---
 <BaseLayout title="Placements and Corporate Engagement" description="Placement support, recruiter engagement, internships, student development activities, and placement contact at ADMIFMS.">
 <PageHero eyebrow="Placements" title="Placements and Corporate Engagement" subtitle="Connecting students with industry through internships, corporate readiness initiatives, recruiter engagement, and structured placement support." actions={[{href:'/contact/',label:'Recruit from ADMIFMS'}, {href:'#contact',label:'Contact Placement Cell',variant:'secondary'}, {href:'/programmes/',label:'View Programmes',variant:'ghost'}]} />
@@ -22,7 +21,44 @@ const reports = (await getCollection('placementReports')).filter((report)=>repor
 <section class="section"><div class="container"><SectionHeader title="Placement Process" /><Timeline steps={steps} /></div></section>
 <section class="section" id="internships"><div class="container two-column"><article><SectionHeader title="Internship Support" /><p>Internship support may include summer internships, live projects where available, industry exposure, learning through practical assignments, and reflection and feedback mechanisms. Details will be updated by the institute.</p></article><aside class="card"><h2>Industry Exposure</h2><p>The institute may conduct guest lectures, workshops, mentoring sessions, and practical assignments to connect academic learning with workplace expectations.</p></aside></div></section>
 <section class="section" id="student-development"><div class="container"><SectionHeader title="Student Development Activities" subtitle="Career-readiness activities are published without unsupported placement statistics." /><div class="grid cards-3">{activities.map((activity)=><PlacementActivityCard title={activity} text="Details to be updated by the institute." />)}</div></div></section>
-<section class="section" id="recruiters"><div class="container"><SectionHeader title="Recruiter Engagement" /><div class="two-column"><article><h3>Why recruit from ADMIFMS?</h3><ul><li>Management and finance student pool</li><li>UG, PG, integrated, and doctoral academic environment</li><li>Mumbai location advantage near BKC</li><li>Industry-ready learning orientation through projects, internships, and development activities</li></ul><ButtonLink href="/contact/" label="Contact Placement Cell" /></article><aside><RecruiterLogoGrid /></aside></div></div></section>
-<section class="section"><div class="container"><SectionHeader title="Placement Reports" subtitle="Approved reports only. Placeholder reports remain unpublished until approved." />{reports.length > 0 ? <div class="grid cards-3">{reports.map((report)=><DownloadCard item={report} />)}</div> : <p class="note">Placement reports, internship reports, and recruiter brochures will be displayed after approval by the institute.</p>}</div></section>
+<section class="section" id="recruiters"><div class="container"><SectionHeader title="Recruiter Engagement" /><div class="two-column"><article><h3>Why recruit from ADMIFMS?</h3><ul><li>Management and finance student pool</li><li>UG, PG, integrated, and doctoral academic environment</li><li>Mumbai location advantage near BKC</li><li>Industry-ready learning orientation through projects, internships, and development activities</li></ul><ButtonLink href="/contact/" label="Contact Placement Cell" /></article><aside id="dynamic-recruiters-grid"><RecruiterLogoGrid /></aside></div></div></section>
+<section class="section"><div class="container"><SectionHeader title="Placement Reports" subtitle="Approved reports only. Placeholder reports remain unpublished until approved." /><div id="dynamic-placement-reports" class="grid cards-3"><p class="note">Placement reports, internship reports, and recruiter brochures will be displayed after approval by the institute.</p></div></div></section>
 <section class="section" id="contact"><div class="container"><ContactCard title="Recruiter Contact" email="Details to be updated by the institute." phone="Details to be updated by the institute." address="Joravar Bhavan, Behind Saroj Sadan, University Campus, Vidya Nagari, Santacruz (East), Mumbai – 400098, Maharashtra, India." action={{href:'/contact/',label:'Send Enquiry'}} /><p class="disclaimer">Placement-related data, recruiter names, reports, and outcomes will be displayed only after approval by the institute.</p></div></section>
 </BaseLayout>
+
+<script>
+  import { fetchSheet, normalizeDriveLink } from '../utils/googleSheets.js';
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Recruiters
+    const recruiters = await fetchSheet('Recruiters');
+    if (recruiters && recruiters.length > 0) {
+      const rc = document.getElementById('dynamic-recruiters-grid');
+      if (rc) {
+        rc.innerHTML = `<div class="logo-grid">
+          ${recruiters.map(r => `
+            <div class="logo-placeholder" style="background:#fff; border:1px solid var(--border); border-radius:0.5rem; padding:1rem; display:flex; align-items:center; justify-content:center;">
+              ${r.LogoLink ? `<img src="${normalizeDriveLink(r.LogoLink)}" alt="${r.Name || 'Recruiter'}" style="max-width:100%; max-height:80px; object-fit:contain;"/>` : `<span style="font-weight:bold; color:var(--navy-900); text-align:center;">${r.Name || 'Recruiter'}</span>`}
+            </div>
+          `).join('')}
+        </div>`;
+      }
+    }
+
+    // Placement Reports
+    const reports = await fetchSheet('PlacementReports');
+    if (reports && reports.length > 0) {
+      const prc = document.getElementById('dynamic-placement-reports');
+      if (prc) {
+        prc.innerHTML = reports.map(r => `
+          <article class="card download-card">
+            <div class="card-meta"><span class="badge" style="background:var(--blue-100); color:var(--navy-900);">${r.Category || 'Report'}</span></div>
+            <h3>${r.Title || 'Placement Report'}</h3>
+            ${r.Description ? `<p>${r.Description}</p>` : ''}
+            ${r.Link ? `<a class="button button-secondary" href="${normalizeDriveLink(r.Link)}" target="_blank" rel="noopener noreferrer">Download PDF</a>` : ''}
+          </article>
+        `).join('');
+      }
+    }
+  });
+</script>

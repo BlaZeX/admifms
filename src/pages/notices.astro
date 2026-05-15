@@ -11,5 +11,30 @@ const categories = ['Admissions','Examination','Academic','Events','General'];
 <BaseLayout title="Notices" description="Official ADMIFMS notices listed newest first with categories and downloadable links where available.">
 <PageHero eyebrow="Notices" title="Notices" subtitle="Official notices for admissions, examinations, academics, events, and general updates." />
 <Breadcrumbs items={[{label:'Notices'}]} />
-<section class="section"><div class="container"><SectionHeader title="Browse by Category" /><div class="filter-links">{categories.map((category)=><a href={`#${category.toLowerCase()}`}>{category}</a>)}</div><div class="grid cards-3 notices-list">{notices.map((notice)=><NoticeCard notice={notice} />)}</div></div></section>
+<section class="section"><div class="container"><SectionHeader title="Browse by Category" /><div class="filter-links">{categories.map((category)=><a href={`#${category.toLowerCase()}`}>{category}</a>)}</div><div id="dynamic-notices-list" class="grid cards-3 notices-list">{notices.map((notice)=><NoticeCard notice={notice} />)}</div></div></section>
 </BaseLayout>
+
+<script>
+  import { fetchSheet, normalizeDriveLink } from '../utils/googleSheets.js';
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const notices = await fetchSheet('Notices');
+    if (notices && notices.length > 0) {
+      const nc = document.getElementById('dynamic-notices-list');
+      if (nc) {
+        nc.innerHTML = notices.map(n => `
+          <article class="card notice-card" id="${n.Category?.toLowerCase() || ''}">
+            <div class="card-meta">
+              <span class="badge" style="background: var(--blue-100); color: var(--navy-900);">${n.Category || 'Notice'}</span>
+              ${n.Important === 'Yes' ? '<span class="badge badge-accent">Important</span>' : ''}
+              <time>${n.Date || ''}</time>
+            </div>
+            <h3>${n.Title || ''}</h3>
+            <p>${n.Description || ''}</p>
+            ${n.Link ? `<a class="text-link" href="${normalizeDriveLink(n.Link)}" target="_blank" rel="noopener noreferrer">Open Link</a>` : ''}
+          </article>
+        `).join('');
+      }
+    }
+  });
+</script>
