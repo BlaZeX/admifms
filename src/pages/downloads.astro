@@ -10,5 +10,41 @@ const grouped = items.reduce((acc,item)=>{(acc[item.data.category] ||= []).push(
 <BaseLayout title="Downloads" description="Academic, syllabus, placement, and institutional downloads for ADMIFMS.">
 <PageHero eyebrow="Downloads" title="Downloads" subtitle="Academic calendars, syllabus documents, forms, notices, and approved reports can be maintained as static files." />
 <Breadcrumbs items={[{label:'Downloads'}]} />
-<section class="section"><div class="container">{Object.entries(grouped).map(([category, list])=><section class="download-group"><h2>{category}</h2><div class="grid cards-3">{list.map((item)=><DownloadCard item={item} />)}</div></section>)}</div></section>
+<section class="section"><div class="container" id="dynamic-downloads-list">{Object.entries(grouped).map(([category, list])=><section class="download-group"><h2>{category}</h2><div class="grid cards-3">{list.map((item)=><DownloadCard item={item} />)}</div></section>)}</div></section>
 </BaseLayout>
+
+<script>
+  import { fetchSheet, normalizeDriveLink } from '../utils/googleSheets.js';
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const downloads = await fetchSheet('Downloads');
+    if (downloads && downloads.length > 0) {
+      const container = document.getElementById('dynamic-downloads-list');
+      if (container) {
+        // Group by category
+        const grouped = downloads.reduce((acc, item) => {
+          const cat = item.Category || 'General';
+          if (!acc[cat]) acc[cat] = [];
+          acc[cat].push(item);
+          return acc;
+        }, {});
+
+        container.innerHTML = Object.entries(grouped).map(([category, list]) => `
+          <section class="download-group">
+            <h2>${category}</h2>
+            <div class="grid cards-3">
+              ${list.map(item => `
+                <article class="card download-card">
+                  <div class="card-meta"><span class="badge" style="background:var(--blue-100); color:var(--navy-900);">${item.Category || 'Download'}</span></div>
+                  <h3>${item.Title || 'Document'}</h3>
+                  ${item.Description ? `<p>${item.Description}</p>` : ''}
+                  ${item.Link ? `<a class="button button-secondary" href="${normalizeDriveLink(item.Link)}" target="_blank" rel="noopener noreferrer">Download PDF</a>` : ''}
+                </article>
+              `).join('')}
+            </div>
+          </section>
+        `).join('');
+      }
+    }
+  });
+</script>

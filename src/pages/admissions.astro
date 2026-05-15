@@ -23,8 +23,27 @@ const faqs = [
 <section class="section" id="overview"><div class="container"><SectionHeader title="Admission Overview" /><p>Admission steps may vary by programme and academic year. Students must follow official University of Mumbai and institute notices.</p></div></section>
 <section class="section" id="eligibility"><div class="container"><SectionHeader title="Programme-wise Admission Cards" /><div class="grid cards-3">{programmes.map((programme)=><ProgrammeCard programme={programme} />)}</div></div></section>
 <section class="section" id="process"><div class="container"><SectionHeader title="Step-by-Step Admission Process" /><Timeline steps={steps} /></div></section>
-<section class="section" id="dates"><div class="container two-column"><article class="card"><h2>Important Dates</h2><table><tbody><tr><th>Activity</th><th>Date</th></tr><tr><td>Application start</td><td>Details to be updated by the institute.</td></tr><tr><td>Document verification</td><td>Details to be updated by the institute.</td></tr><tr><td>Merit list / admission round</td><td>Details to be updated by the institute.</td></tr></tbody></table></article><article class="card"><h2>Documents Required</h2><ul><li>Mark sheets</li><li>ID proof</li><li>Photographs</li><li>Category certificate if applicable</li><li>University registration/application receipt if applicable</li><li>Other documents as notified</li></ul></article></div></section>
+<section class="section" id="dates"><div class="container two-column"><article class="card"><h2>Important Dates</h2><table id="dynamic-important-dates"><tbody><tr><th>Activity</th><th>Date</th></tr><tr><td>Loading...</td><td></td></tr></tbody></table></article><article class="card"><h2>Documents Required</h2><ul><li>Mark sheets</li><li>ID proof</li><li>Photographs</li><li>Category certificate if applicable</li><li>University registration/application receipt if applicable</li><li>Other documents as notified</li></ul></article></div></section>
 <section class="section"><div class="container grid cards-3"><article class="card"><h2>Fees Information</h2><p>Fee details will be updated as per official notification.</p></article><article class="card"><h2>Reservation / Category Instructions</h2><p>As per applicable University of Mumbai and Government of Maharashtra rules.</p></article><article class="card"><h2>Admissions Help</h2><p>Details to be updated by the institute.</p></article></div></section>
 <section class="section" id="faqs"><div class="container narrow"><SectionHeader title="Admissions FAQs" /><FAQList faqs={faqs} /></div></section>
 <CTASection title="Admission Enquiry" text="Admission details will be updated as per University of Mumbai notifications and institute announcements." actions={[{href:'/contact/',label:'Contact Admissions'}, {href:'https://muugadmission.samarth.edu.in',label:'Visit Samarth Portal',variant:'secondary'}]} />
 </BaseLayout>
+
+<script>
+  import { fetchSheet } from '../utils/googleSheets.js';
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const dates = await fetchSheet('ImportantDates');
+    if (dates && dates.length > 0) {
+      const datesContainer = document.getElementById('dynamic-important-dates');
+      if (datesContainer) {
+        datesContainer.innerHTML = `
+          <tbody>
+            <tr><th>Activity</th><th>Date</th></tr>
+            ${dates.map(d => `<tr><td>${d.Activity || ''}</td><td>${d.Date || ''}</td></tr>`).join('')}
+          </tbody>
+        `;
+      }
+    }
+  });
+</script>
