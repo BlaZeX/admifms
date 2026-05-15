@@ -1,8 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
 import NoticeCard from '../components/NoticeCard.astro';
 import { getCollection } from 'astro:content';
-const notices=(await getCollection('notices')).sort((a,b)=>b.data.date-a.data.date);
+const notices = (await getCollection('notices')).sort((a,b)=>b.data.date - a.data.date);
+const categories = ['Admissions','Examination','Academic','Events','General'];
 ---
-<BaseLayout title="Notices | ADMI" description="Official notices."><div class="page-title"><div class="container"><h1>Notices</h1></div></div><Breadcrumbs items={[{label:'Notices'}]} /><section class="section"><div class="container grid cards-3">{notices.map((n)=><NoticeCard notice={n} />)}</div></section></BaseLayout>
+<BaseLayout title="Notices" description="Official ADMIFMS notices listed newest first with categories and downloadable links where available.">
+<PageHero eyebrow="Notices" title="Notices" subtitle="Official notices for admissions, examinations, academics, events, and general updates." />
+<Breadcrumbs items={[{label:'Notices'}]} />
+<section class="section"><div class="container"><SectionHeader title="Browse by Category" /><div class="filter-links">{categories.map((category)=><a href={`#${category.toLowerCase()}`}>{category}</a>)}</div><div class="grid cards-3 notices-list">{notices.map((notice)=><NoticeCard notice={notice} />)}</div></div></section>
+</BaseLayout>

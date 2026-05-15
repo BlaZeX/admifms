@@ -1,8 +1,4 @@
-<section class="hero">
-  <div class="container">
-    <h1>Alkesh Dinesh Mody Institute for Financial and Management Studies</h1>
-    <p>A Department of the University of Mumbai</p>
-    <p>Academic programs in management and finance rooted in institutional rigor and public purpose.</p>
-    <div class="btns"><a class="btn btn-primary" href="/programs/">Explore Programs</a><a class="btn btn-secondary" href="/notices/">View Notices</a></div>
-  </div>
-</section>
+---
+import PageHero from './PageHero.astro';
+---
+<PageHero eyebrow="A Department of the University of Mumbai" title="Shaping Future Leaders in Management and Finance Since 1994" subtitle="ADMIFMS supports management and finance education through academic programmes, research culture, student initiatives, and industry engagement." actions={[{href:'/programmes/',label:'Explore Programmes'}, {href:'/admissions/',label:'View Admissions',variant:'secondary'}, {href:'/notices/',label:'Latest Notices',variant:'ghost'}]} />

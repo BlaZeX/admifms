@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+---
+<BaseLayout title="Director’s Message" description="Director’s message placeholder for ADMIFMS.">
+  <PageHero eyebrow="About ADMIFMS" title="Director’s Message" subtitle="A welcome note from the institute leadership. Director name and photograph will be updated by the institute." />
+  <Breadcrumbs items={[{label:'About',href:'/about/'},{label:'Director’s Message'}]} />
+  <section class="section"><div class="container director-layout"><div class="portrait-placeholder" aria-label="Director photo placeholder">Director photo placeholder</div><article class="card"><h2>Welcome Note</h2><p>Welcome to Alkesh Dinesh Mody Institute for Financial and Management Studies, a department of the University of Mumbai. ADMIFMS is committed to academic seriousness, practical learning, research culture, and student development.</p><h2>Institute Philosophy</h2><p>The institute seeks to combine academic rigour with practical application, ethical conduct, and continuous engagement with the evolving needs of management and finance education.</p><h2>Message to Students and Parents</h2><p>Students and parents are encouraged to follow official University of Mumbai and institute notifications for admissions, academics, examinations, and student services. Details to be updated by the institute.</p><p><strong>Signature:</strong> Director / Head, ADMIFMS — Details to be updated by the institute.</p></article></div></section>
+</BaseLayout>

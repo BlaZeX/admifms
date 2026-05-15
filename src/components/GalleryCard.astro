@@ -1,0 +1,5 @@
+---
+import Badge from './Badge.astro';
+const { item } = Astro.props;
+---
+<article class="card gallery-card"><div class="image-placeholder" aria-label={`Gallery placeholder for ${item.data.title}`}>Photo album</div><div class="card-meta"><Badge label={item.data.category} /><time>{item.data.date.toLocaleDateString('en-IN')}</time></div><h3>{item.data.title}</h3><p>{item.data.description}</p></article>

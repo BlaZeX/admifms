@@ -1,9 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import InfoCard from '../components/InfoCard.astro';
+import { getCollection } from 'astro:content';
+const publications = await getCollection('publications');
 ---
-<BaseLayout title="Research | ADMI" description="Research at ADMI">
-  <div class="page-title"><div class="container"><h1>Research</h1></div></div>
-  <Breadcrumbs items={[{ label: 'Research' }]} />
-  <section class="section"><div class="container"><p>Research themes include finance, governance, strategy, operations, and public systems. Details to be updated by the institute.</p></div></section>
+<BaseLayout title="Research" description="Research overview, PhD linkage, faculty publications, seminars, projects, collaborations, and research contact at ADMIFMS.">
+<PageHero eyebrow="Research" title="Research" subtitle="Faculty research, doctoral linkage, publications, seminars, conferences, projects, consultancy, and collaborations." actions={[{href:'/programmes/phd/',label:'PhD Programme'}, {href:'/contact/',label:'Research Contact',variant:'secondary'}]} />
+<Breadcrumbs items={[{label:'Research'}]} />
+<section class="section" id="overview"><div class="container"><SectionHeader title="Research Overview" /><p>ADMIFMS encourages research culture through faculty research, PhD linkage, seminars, conferences, research projects, consultancy possibilities, and academic collaboration. References to ICSSR / NIEPA or other funded activity should be added only where supported by institute-approved documentation.</p></div></section>
+<section class="section"><div class="container grid cards-3"><InfoCard title="PhD Research" text="Doctoral research details are available on the PhD programme page." href="/programmes/phd/" /><InfoCard title="Conferences and Seminars" text="Seminars and conference details will be updated by the institute." /><InfoCard title="Research Projects and Collaborations" text="Funded projects, consultancy, and collaborations will be published only after approval." /></div></section>
+<section class="section" id="publications"><div class="container"><SectionHeader title="Faculty Publications" />{publications.length > 0 ? <div class="grid cards-3">{publications.map((publication)=><article class="card"><h3>{publication.data.title}</h3><p>{publication.data.authors} · {publication.data.year}</p><p>{publication.data.journal} · {publication.data.type}</p>{publication.data.link && <a class="text-link" href={publication.data.link} target="_blank" rel="noopener noreferrer">View publication</a>}</article>)}</div> : <p>Publication details to be updated by the institute.</p>}</div></section>
 </BaseLayout>

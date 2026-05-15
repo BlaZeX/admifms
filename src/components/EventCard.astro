@@ -1,4 +1,11 @@
 ---
+import Badge from './Badge.astro';
 const { event } = Astro.props;
 ---
-<article class="card"><h3>{event.data.title}</h3><p>{event.data.date.toLocaleDateString('en-IN')} · {event.data.location}</p><p>{event.data.description}</p></article>
+<article class="card event-card">
+  <div class="image-placeholder" aria-label={`Placeholder image for ${event.data.title}`}>{event.data.category}</div>
+  <div class="card-meta"><Badge label={event.data.category} /><time datetime={event.data.date.toISOString()}>{event.data.date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</time></div>
+  <h3>{event.data.title}</h3>
+  <p>{event.data.description}</p>
+  <p class="muted">{event.data.location}</p>
+</article>

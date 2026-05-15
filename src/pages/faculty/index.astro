@@ -1,8 +1,17 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
 import FacultyCard from '../../components/FacultyCard.astro';
+import InfoCard from '../../components/InfoCard.astro';
 import { getCollection } from 'astro:content';
-const faculty=await getCollection('faculty');
+const faculty = await getCollection('faculty');
 ---
-<BaseLayout title="Faculty | ADMI" description="Faculty members"><div class="page-title"><div class="container"><h1>Faculty</h1></div></div><Breadcrumbs items={[{label:'Faculty'}]} /><section class="section"><div class="container grid cards-3">{faculty.map((m)=><FacultyCard member={m} />)}</div></section></BaseLayout>
+<BaseLayout title="Faculty" description="Faculty profiles, areas of interest, achievements, and academic contact information for ADMIFMS.">
+<PageHero eyebrow="Faculty" title="Faculty" subtitle="Faculty profiles, academic interests, teaching areas, achievements, and contact information." />
+<Breadcrumbs items={[{label:'Faculty'}]} />
+<section class="section"><div class="container"><SectionHeader title="Director / Head Profile" /><article class="card director-card"><div class="portrait-placeholder">Photo placeholder</div><div><h3>Director / Head</h3><p>Name and profile details to be updated by the institute.</p></div></article></div></section>
+<section class="section"><div class="container"><SectionHeader title="Core Faculty Profiles" /><div class="grid cards-3">{faculty.map((member)=><FacultyCard member={member} />)}</div></div></section>
+<section class="section"><div class="container grid cards-3"><InfoCard title="Visiting Faculty / Industry Experts" text="Details to be updated by the institute." /><InfoCard title="Faculty Achievements" text="Verified faculty achievements can be published after institute approval." /><InfoCard title="Faculty Office Note" text="For academic communication, use official contact details and institute notices." /></div></section>
+</BaseLayout>

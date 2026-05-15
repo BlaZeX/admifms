@@ -1,0 +1,10 @@
+---
+import Badge from './Badge.astro';
+const { programme } = Astro.props;
+---
+<article class="card programme-card">
+  <div class="card-meta"><Badge label={programme.level} />{programme.isNew && <Badge label="New Programme" tone="accent" />}</div>
+  <h3><a href={`/programmes/${programme.slug}/`}>{programme.shortTitle || programme.title}</a></h3>
+  <p>{programme.description}</p>
+  <a class="text-link" href={`/programmes/${programme.slug}/`}>View programme</a>
+</article>

@@ -1,7 +1,10 @@
-<section class="section">
-  <div class="container card">
-    <h2>Admissions and Contact</h2>
-    <p>For admission updates and institutional communication, please use the official pages.</p>
-    <div class="btns"><a class="btn btn-primary" href="/admissions/">Admissions</a><a class="btn btn-primary" href="/contact/">Contact</a></div>
+---
+import ButtonLink from './ButtonLink.astro';
+const { title = 'Need more information?', text = 'Details will be updated by the institute. For enquiries, please use the official contact channels.', actions = [{ href: '/contact/', label: 'Contact ADMIFMS' }] } = Astro.props;
+---
+<section class="section cta-band">
+  <div class="container cta-inner">
+    <div><h2>{title}</h2><p>{text}</p></div>
+    <div class="button-row">{actions.map((action) => <ButtonLink {...action} />)}</div>
   </div>
 </section>

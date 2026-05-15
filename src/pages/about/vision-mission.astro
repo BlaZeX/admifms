@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import InfoCard from '../../components/InfoCard.astro';
+---
+<BaseLayout title="Vision and Mission" description="Vision, mission, core values, academic objectives, and student development focus of ADMIFMS.">
+  <PageHero eyebrow="About ADMIFMS" title="Vision and Mission" subtitle="A formal statement of academic direction, student development, and institutional values. Details may be refined by the institute." />
+  <Breadcrumbs items={[{label:'About',href:'/about/'},{label:'Vision and Mission'}]} />
+  <section class="section"><div class="container two-column"><article class="card"><h2>Vision</h2><p>To contribute to management and finance education through academic excellence, research orientation, ethical leadership, and student development. Details to be updated by the institute.</p></article><article class="card"><h2>Mission</h2><p>To provide student-centric learning, industry interaction, skill development, research engagement, and socially responsible academic practices aligned with University of Mumbai norms.</p></article></div></section>
+  <section class="section"><div class="container"><SectionHeader title="Core Values and Academic Objectives" /><div class="grid cards-3"><InfoCard title="Academic Integrity" text="Promote responsible learning, research ethics, and institutional accountability." /><InfoCard title="Student Development" text="Support communication, analytical thinking, leadership, employability, and civic responsibility." /><InfoCard title="Research Orientation" text="Encourage scholarly inquiry, publications, seminars, and doctoral engagement." /><InfoCard title="Industry Relevance" text="Connect classroom learning with internships, projects, and professional exposure." /><InfoCard title="Inclusive Access" text="Follow University of Mumbai and applicable government norms." /><InfoCard title="Continuous Improvement" text="Keep curriculum support, teaching methods, and student services responsive to academic needs." /></div></div></section>
+</BaseLayout>

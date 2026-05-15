@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import InfoCard from '../../components/InfoCard.astro';
+import CTASection from '../../components/CTASection.astro';
+---
+<BaseLayout title="About the Institute" description="About ADMIFMS, a department of the University of Mumbai established in 1994 at Vidyanagari Campus.">
+  <PageHero eyebrow="About ADMIFMS" title="About the Institute" subtitle="Alkesh Dinesh Mody Institute for Financial and Management Studies is a department of the University of Mumbai focused on management and finance education, research culture, student initiatives, and industry-academia engagement." />
+  <Breadcrumbs items={[{label:'About'}]} />
+  <section class="section"><div class="container two-column"><article><SectionHeader title="Institute Overview" /><p>Established in 1994, ADMIFMS is located at Vidyanagari Campus, Santacruz East, Mumbai, near Bandra-Kurla Complex. The institute offers academic programmes across management, finance, commerce-oriented retail operations, integrated management education, and doctoral research.</p><p>The six academic programmes are BMS, Integrated BMS-MMS, MMS, M.Sc. Finance, B.Com Retail Operations Management (AEDP), and PhD in Management.</p><h2>About University of Mumbai</h2><p>ADMIFMS functions as a department of the University of Mumbai. University-level rules, notifications, and admission processes apply as notified.</p></article><aside class="card"><h2>Campus Location and Environment</h2><p>Vidyanagari Campus places the institute in a major academic ecosystem in Mumbai with proximity to Bandra-Kurla Complex and institutional resources.</p></aside></div></section>
+  <section class="section" id="achievements"><div class="container"><SectionHeader title="Institutional Strengths" /><div class="grid cards-3"><InfoCard title="Academic Focus" text="Management, finance, retail operations, integrated management, and doctoral research." /><InfoCard title="Industry-Academia Engagement" text="Workshops, lectures, internships, and placement-oriented development activities." /><InfoCard title="Student Committees" text="Student-led committees support placements, media, alumni, cultural, social, and entrepreneurship initiatives." /><InfoCard title="Research Culture" text="Faculty research, seminars, publications, PhD linkage, and collaboration opportunities." /><InfoCard title="Recognitions" text="Verified recognitions can be listed after institute approval and documentation." /></div></div></section>
+  <CTASection title="Explore ADMIFMS" text="Learn about programmes or contact the institute for official information." actions={[{href:'/programmes/',label:'View Programmes'}, {href:'/contact/',label:'Contact ADMIFMS',variant:'secondary'}]} />
+</BaseLayout>

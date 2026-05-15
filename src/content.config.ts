@@ -1,12 +1,14 @@
 import { defineCollection, z } from 'astro:content';
 
+const fileReference = z.string().refine((value) => value.startsWith('/') || value.startsWith('https://') || value.startsWith('http://'), 'Use an absolute URL or a root-relative path.');
+
 const notices = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
     category: z.string(),
     description: z.string(),
-    fileUrl: z.string().url().optional(),
+    fileUrl: fileReference.optional(),
     isImportant: z.boolean().optional()
   })
 });
@@ -52,9 +54,31 @@ const downloads = defineCollection({
     title: z.string(),
     category: z.string(),
     date: z.coerce.date(),
-    fileUrl: z.string().url(),
+    fileUrl: fileReference,
     description: z.string().optional()
   })
 });
 
-export const collections = { notices, events, faculty, publications, downloads };
+const gallery = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    category: z.string(),
+    description: z.string(),
+    coverImage: z.string().optional(),
+    images: z.array(z.string()).optional()
+  })
+});
+
+const placementReports = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    year: z.number(),
+    category: z.string(),
+    fileUrl: fileReference,
+    description: z.string().optional(),
+    approved: z.boolean()
+  })
+});
+
+export const collections = { notices, events, faculty, publications, downloads, gallery, placementReports };

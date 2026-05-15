@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import PageHero from './PageHero.astro';
+import SectionHeader from './SectionHeader.astro';
+import AtGlanceGrid from './AtGlanceGrid.astro';
+import FAQList from './FAQList.astro';
+import CTASection from './CTASection.astro';
+import Badge from './Badge.astro';
+const { programme } = Astro.props;
+const faqs = [
+  { question: `What is the admission route for ${programme.shortTitle}?`, answer: 'Details will be updated as per University of Mumbai and institute notifications.' },
+  { question: 'What is the eligibility?', answer: 'Details to be updated by the institute.' },
+  { question: 'What is the intake?', answer: 'Details to be updated by the institute.' },
+  { question: 'Where can fee details be found?', answer: 'Fee details will be updated as per University of Mumbai and institute notifications.' },
+  { question: 'Whom should applicants contact?', answer: 'Programme contact details will be updated by the institute.' }
+];
+const glance = [
+  { label: 'Duration', value: programme.duration },
+  { label: 'Level', value: programme.level },
+  { label: 'Mode', value: 'Full-time / as notified by the institute.' },
+  { label: 'Eligibility', value: 'Details to be updated by the institute.' },
+  { label: 'Intake', value: 'Details to be updated by the institute.' },
+  { label: 'Affiliation', value: 'University of Mumbai' },
+  { label: 'Admission route', value: 'As per University of Mumbai and institute notifications.' }
+];
+---
+<BaseLayout title={`${programme.title} | ADMIFMS`} description={programme.description}>
+  <PageHero eyebrow="Programme" title={programme.title} subtitle={programme.description} actions={[{ href: '/admissions/', label: 'Apply / Enquire' }, { href: '/contact/', label: 'Programme Contact', variant: 'secondary' }]} />
+  <Breadcrumbs items={[{ label: 'Programmes', href: '/programmes/' }, { label: programme.shortTitle }]} />
+  <section class="section"><div class="container narrow"><div class="card programme-intro"><div class="card-meta"><Badge label={programme.degreeType} /> <Badge label={programme.level} />{programme.isNew && <Badge label="New Programme" tone="accent" />}</div><h2>At a Glance</h2><AtGlanceGrid items={glance} /></div></div></section>
+  <section class="section"><div class="container two-column"><article><SectionHeader title="Programme Overview" /><p>{programme.overview}</p><h2>Who Should Apply</h2><ul>{programme.whoShouldApply.map((item) => <li>{item}</li>)}</ul><h2>Curriculum / Course Structure</h2><ul>{programme.curriculum.map((item) => <li>{item}</li>)}</ul>{programme.slug === 'bcom-retail-operations-management' && <><h2>Samarth Portal Registration Guidance</h2><p>Students are required to complete registration and application formalities through the University of Mumbai admission portal as notified. Detailed step-by-step guidance will be updated by the institute.</p></>}<h2>Learning Outcomes</h2><ul>{programme.outcomes.map((item) => <li>{item}</li>)}</ul></article><aside class="card"><h2>Teaching-Learning Approach</h2><ul>{programme.teaching.map((item) => <li>{item}</li>)}</ul><h2>Career Pathways</h2><ul>{programme.careers.map((item) => <li>{item}</li>)}</ul></aside></div></section>
+  <section class="section"><div class="container"><SectionHeader title="Admission Process and Fees" /><div class="grid cards-3"><article class="card"><h3>Admission Process</h3><p>As per University of Mumbai process and institute notices. Details to be updated by the institute.</p></article><article class="card"><h3>Fees Note</h3><p>Fee details will be updated as per University of Mumbai and institute notifications.</p></article><article class="card"><h3>Programme Contact</h3><p>Programme contact details will be updated by the institute.</p></article></div></div></section>
+  <section class="section"><div class="container narrow"><SectionHeader title="Frequently Asked Questions" /><FAQList faqs={faqs} /></div></section>
+  <CTASection title="Interested in this programme?" text="Admission details will be updated as per University of Mumbai notifications and institute announcements." actions={[{ href: '/admissions/', label: 'View Admissions' }, { href: '/contact/', label: 'Contact ADMIFMS', variant: 'secondary' }]} />
+</BaseLayout>

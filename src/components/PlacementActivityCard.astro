@@ -1,0 +1,4 @@
+---
+const { title, text } = Astro.props;
+---
+<article class="card activity-card"><h3>{title}</h3>{text && <p>{text}</p>}</article>

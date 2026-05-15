@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import GalleryCard from '../components/GalleryCard.astro';
+import InfoCard from '../components/InfoCard.astro';
+import { getCollection } from 'astro:content';
+const albums = await getCollection('gallery');
+---
+<BaseLayout title="Gallery" description="ADMIFMS gallery albums for events, workshops, seminars, student activities, and campus photographs.">
+<PageHero eyebrow="Gallery" title="Gallery" subtitle="Event-wise albums, seminars, workshops, student activities, and campus photographs. Real approved institute photos can be added later." />
+<Breadcrumbs items={[{label:'Gallery'}]} />
+<section class="section"><div class="container"><SectionHeader title="Photo Albums" /><div class="grid cards-3">{albums.map((item)=><GalleryCard item={item} />)}</div></div></section>
+<section class="section"><div class="container grid cards-3"><InfoCard title="Workshop / Seminar Photos" text="Approved photographs can be uploaded to the static project and referenced in gallery content." /><InfoCard title="Student Activities" text="Student committee and event photographs can be added after approval." /><InfoCard title="Photo Usage Note" text="Photos should be published only with institute approval and appropriate consent where applicable." /></div></section>
+</BaseLayout>

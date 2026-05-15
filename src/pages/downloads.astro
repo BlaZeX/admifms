@@ -1,9 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
 import DownloadCard from '../components/DownloadCard.astro';
 import { getCollection } from 'astro:content';
-const items=await getCollection('downloads');
-const grouped=items.reduce((acc,item)=>{(acc[item.data.category] ||= []).push(item);return acc;}, {});
+const items = await getCollection('downloads');
+const grouped = items.reduce((acc,item)=>{(acc[item.data.category] ||= []).push(item); return acc;}, {});
 ---
-<BaseLayout title="Downloads | ADMI" description="Downloadable resources"><div class="page-title"><div class="container"><h1>Downloads</h1></div></div><Breadcrumbs items={[{label:'Downloads'}]} /><section class="section"><div class="container">{Object.entries(grouped).map(([cat,list])=>list && <><h2>{cat}</h2><div class="grid cards-3">{list.map((item)=><DownloadCard item={item} />)}</div></>)}</div></section></BaseLayout>
+<BaseLayout title="Downloads" description="Academic, syllabus, placement, and institutional downloads for ADMIFMS.">
+<PageHero eyebrow="Downloads" title="Downloads" subtitle="Academic calendars, syllabus documents, forms, notices, and approved reports can be maintained as static files." />
+<Breadcrumbs items={[{label:'Downloads'}]} />
+<section class="section"><div class="container">{Object.entries(grouped).map(([category, list])=><section class="download-group"><h2>{category}</h2><div class="grid cards-3">{list.map((item)=><DownloadCard item={item} />)}</div></section>)}</div></section>
+</BaseLayout>

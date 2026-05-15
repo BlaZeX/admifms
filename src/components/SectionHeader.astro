@@ -1,4 +1,8 @@
 ---
-const { title, subtitle } = Astro.props;
+const { eyebrow, title, subtitle, align = 'left' } = Astro.props;
 ---
-<header><h2>{title}</h2>{subtitle && <p>{subtitle}</p>}</header>
+<header class={`section-header ${align === 'center' ? 'center' : ''}`}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <h2>{title}</h2>
+  {subtitle && <p>{subtitle}</p>}
+</header>

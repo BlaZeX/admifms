@@ -1,15 +1,38 @@
+---
+import TopBar from './TopBar.astro';
+import ButtonLink from './ButtonLink.astro';
+const navGroups = [
+  { label: 'About', href: '/about/', links: [['Institute Overview','/about/'], ['Vision & Mission','/about/vision-mission/'], ['Director’s Message','/about/director-message/'], ['Achievements','/about/#achievements']] },
+  { label: 'Programmes', href: '/programmes/', links: [['MMS','/programmes/mms/'], ['M.Sc. Finance','/programmes/msc-finance/'], ['BMS','/programmes/bms/'], ['BMS-MMS Integrated','/programmes/bms-mms-integrated/'], ['B.Com Retail Operations Management (AEDP)','/programmes/bcom-retail-operations-management/'], ['PhD','/programmes/phd/']] },
+  { label: 'Admissions', href: '/admissions/', links: [['Admission Overview','/admissions/#overview'], ['Eligibility','/admissions/#eligibility'], ['Admission Process','/admissions/#process'], ['Important Dates','/admissions/#dates'], ['FAQs','/admissions/#faqs']] },
+  { label: 'Academics', href: '/academics/', links: [['Academic Calendar','/academics/#calendar'], ['Curriculum / Syllabus','/academics/#curriculum'], ['Faculty','/faculty/'], ['Teaching-Learning','/academics/#teaching-learning'], ['Examination','/academics/#examination'], ['Downloads','/downloads/']] },
+  { label: 'Placements', href: '/placements/', links: [['Placement Overview','/placements/#overview'], ['Recruiters','/placements/#recruiters'], ['Internship Support','/placements/#internships'], ['Student Development','/placements/#student-development'], ['Placement Contact','/placements/#contact']] },
+  { label: 'Student Life', href: '/student-life/', links: [['Student Council','/student-life/#student-council'], ['Committees','/committees/'], ['Events','/student-life/#events'], ['Clubs','/student-life/#clubs'], ['Gallery','/gallery/'], ['Student Achievements','/student-life/#achievements']] },
+  { label: 'Research', href: '/research/', links: [['Research Overview','/research/#overview'], ['PhD','/programmes/phd/'], ['Publications','/research/#publications'], ['Conferences / Seminars','/research/#seminars'], ['Research Projects','/research/#projects']] },
+  { label: 'Notices', href: '/notices/', links: [['Admissions','/notices/#admissions'], ['Examination','/notices/#examination'], ['Academic','/notices/#academic'], ['Events','/notices/#events'], ['General Notices','/notices/#general']] }
+];
+---
 <header class="site-header">
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  <div class="container topbar">
-    <a class="brand" href="/">Alkesh Dinesh Mody Institute for Financial and Management Studies<span class="subbrand">University of Mumbai</span></a>
+  <TopBar />
+  <div class="container header-main">
+    <a class="brand" href="/" aria-label="ADMIFMS home">
+      <span class="logo-mark" aria-hidden="true">A</span>
+      <span><strong>Alkesh Dinesh Mody Institute for Financial and Management Studies</strong><small>A Department of the University of Mumbai</small></span>
+    </a>
     <details class="mobile-nav">
-      <summary aria-label="Open navigation menu">Menu</summary>
+      <summary>Menu</summary>
       <nav class="mobile-panel" aria-label="Mobile navigation">
-        <a href="/about/">About</a><a href="/programs/">Programs</a><a href="/admissions/">Admissions</a><a href="/faculty/">Faculty</a><a href="/research/">Research</a><a href="/notices/">Notices</a><a href="/events/">Events</a><a href="/downloads/">Downloads</a><a href="/contact/">Contact</a>
+        <a href="/">Home</a>
+        {navGroups.map((group) => <details><summary>{group.label}</summary>{group.links.map(([label, href]) => <a href={href}>{label}</a>)}</details>)}
+        <a href="/contact/">Contact</a>
       </nav>
     </details>
+    <ButtonLink href="/admissions/" label="Admissions" class="header-cta" />
   </div>
   <nav class="container nav" aria-label="Primary navigation">
-    <a href="/about/">About</a><a href="/programs/">Programs</a><a href="/admissions/">Admissions</a><a href="/faculty/">Faculty</a><a href="/research/">Research</a><a href="/notices/">Notices</a><a href="/events/">Events</a><a href="/downloads/">Downloads</a><a href="/contact/">Contact</a>
+    <a href="/">Home</a>
+    {navGroups.map((group) => <details class="nav-group"><summary>{group.label}</summary><div class="dropdown">{group.links.map(([label, href]) => <a href={href}>{label}</a>)}</div></details>)}
+    <a href="/contact/">Contact</a>
   </nav>
 </header>

@@ -1,0 +1,12 @@
+---
+import ButtonLink from './ButtonLink.astro';
+const { eyebrow, title, subtitle, actions = [] } = Astro.props;
+---
+<section class="page-hero">
+  <div class="container page-hero-inner">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {subtitle && <p class="lead">{subtitle}</p>}
+    {actions.length > 0 && <div class="button-row">{actions.map((action) => <ButtonLink {...action} />)}</div>}
+  </div>
+</section>
