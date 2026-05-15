@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactCard from '../components/ContactCard.astro';
+import InfoCard from '../components/InfoCard.astro';
+---
+<BaseLayout title="Contact" description="Contact details, address, office hours, admissions contact, enquiry form placeholder, and map link for ADMIFMS.">
+<PageHero eyebrow="Contact" title="Contact ADMIFMS" subtitle="Official address, contact placeholders, programme enquiry, admission contact, and map details." />
+<Breadcrumbs items={[{label:'Contact'}]} />
+<section class="section"><div class="container two-column"><ContactCard title="Institute Address" email="Details to be updated by the institute." phone="Details to be updated by the institute." address="Joravar Bhavan, Behind Saroj Sadan, University Campus, Vidya Nagari, Santacruz (East), Mumbai – 400098, Maharashtra, India." action={{href:'https://www.google.com/maps/search/?api=1&query=Vidya+Nagari+Santacruz+East+Mumbai+400098', label:'Open Map'}} /><div class="card"><h2>Office Hours</h2><p>Details to be updated by the institute.</p><h2>Programme Enquiry Form</h2><p>Use an external Google Form or Microsoft Form only. No server-side form is used on this static website.</p><a class="button button-secondary" href="https://forms.office.com/" target="_blank" rel="noopener noreferrer">External Form Placeholder</a></div></div></section>
+<section class="section"><div class="container grid cards-3"><InfoCard title="Admission Contact" text="Admission contact details will be updated by the institute." /><InfoCard title="Placement Contact" text="Placement Cell details will be updated by the institute." /><InfoCard title="Social Media" text="Official social media links will be updated by the institute." /></div></section>
+</BaseLayout>

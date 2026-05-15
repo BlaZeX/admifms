@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProgrammeCard from '../components/ProgrammeCard.astro';
+import Timeline from '../components/Timeline.astro';
+import FAQList from '../components/FAQList.astro';
+import CTASection from '../components/CTASection.astro';
+import { programmes } from '../data/programmes.js';
+const steps = ['Check programme eligibility','Register on the University admission portal / Samarth portal if applicable','Select the correct programme','Submit application','Take printout / keep receipt where applicable','Complete institute-level documentation where required','Follow merit list / document verification / fee payment instructions'];
+const faqs = [
+  {question:'Where will admission updates be published?', answer:'Admission updates will be published through official University of Mumbai and institute notices.'},
+  {question:'Are eligibility and intake confirmed?', answer:'Details to be updated by the institute.'},
+  {question:'Where are fee details available?', answer:'Fee details will be updated as per official notification.'},
+  {question:'Are reservation rules applicable?', answer:'As per applicable University of Mumbai and Government of Maharashtra rules.'},
+  {question:'How can applicants ask questions?', answer:'Use the official contact page or enquiry form placeholder.'}
+];
+---
+<BaseLayout title="Admissions" description="Programme-wise admission information, eligibility, process, documents, dates, and contact details for ADMIFMS.">
+<PageHero eyebrow="Admissions" title="Admissions" subtitle="Find programme-wise admission information, eligibility, process, documents, important dates, and contact details." actions={[{href:'https://muugadmission.samarth.edu.in',label:'Samarth Portal'}, {href:'/contact/',label:'Admission Enquiry',variant:'secondary'}]} />
+<Breadcrumbs items={[{label:'Admissions'}]} />
+<section class="section" id="overview"><div class="container"><SectionHeader title="Admission Overview" /><p>Admission steps may vary by programme and academic year. Students must follow official University of Mumbai and institute notices.</p></div></section>
+<section class="section" id="eligibility"><div class="container"><SectionHeader title="Programme-wise Admission Cards" /><div class="grid cards-3">{programmes.map((programme)=><ProgrammeCard programme={programme} />)}</div></div></section>
+<section class="section" id="process"><div class="container"><SectionHeader title="Step-by-Step Admission Process" /><Timeline steps={steps} /></div></section>
+<section class="section" id="dates"><div class="container two-column"><article class="card"><h2>Important Dates</h2><table><tbody><tr><th>Activity</th><th>Date</th></tr><tr><td>Application start</td><td>Details to be updated by the institute.</td></tr><tr><td>Document verification</td><td>Details to be updated by the institute.</td></tr><tr><td>Merit list / admission round</td><td>Details to be updated by the institute.</td></tr></tbody></table></article><article class="card"><h2>Documents Required</h2><ul><li>Mark sheets</li><li>ID proof</li><li>Photographs</li><li>Category certificate if applicable</li><li>University registration/application receipt if applicable</li><li>Other documents as notified</li></ul></article></div></section>
+<section class="section"><div class="container grid cards-3"><article class="card"><h2>Fees Information</h2><p>Fee details will be updated as per official notification.</p></article><article class="card"><h2>Reservation / Category Instructions</h2><p>As per applicable University of Mumbai and Government of Maharashtra rules.</p></article><article class="card"><h2>Admissions Help</h2><p>Details to be updated by the institute.</p></article></div></section>
+<section class="section" id="faqs"><div class="container narrow"><SectionHeader title="Admissions FAQs" /><FAQList faqs={faqs} /></div></section>
+<CTASection title="Admission Enquiry" text="Admission details will be updated as per University of Mumbai notifications and institute announcements." actions={[{href:'/contact/',label:'Contact Admissions'}, {href:'https://muugadmission.samarth.edu.in',label:'Visit Samarth Portal',variant:'secondary'}]} />
+</BaseLayout>

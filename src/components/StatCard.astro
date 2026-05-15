@@ -1,0 +1,4 @@
+---
+const { value, label, note } = Astro.props;
+---
+<article class="stat-card"><strong>{value}</strong><span>{label}</span>{note && <small>{note}</small>}</article>

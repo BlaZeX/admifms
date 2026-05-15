@@ -1,0 +1,6 @@
+---
+import ProgrammeTemplate from '../../components/ProgrammeTemplate.astro';
+import { programmeBySlug } from '../../data/programmes.js';
+const programme = programmeBySlug['phd'];
+---
+<ProgrammeTemplate programme={programme} />

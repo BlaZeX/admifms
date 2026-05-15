@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import DownloadCard from '../components/DownloadCard.astro';
+import { getCollection } from 'astro:content';
+const downloads = (await getCollection('downloads')).filter((item)=>['Academic','Syllabus'].includes(item.data.category));
+---
+<BaseLayout title="Academics" description="Academic calendar, curriculum, teaching-learning approach, examination information, and downloads at ADMIFMS.">
+<PageHero eyebrow="Academics" title="Academics" subtitle="Academic calendar, curriculum support, teaching-learning approach, examinations, downloads, and student academic support." />
+<Breadcrumbs items={[{label:'Academics'}]} />
+<section class="section" id="teaching-learning"><div class="container"><SectionHeader title="Teaching-Learning Approach" /><p>ADMIFMS follows a student-centric and outcome-oriented teaching-learning approach integrating academic rigor with practical application, NEP 2020 orientation, case studies, simulations, presentations, group discussions, projects, research assignments, workshops, seminars, internships, corporate lectures, mock interviews, skill enhancement, alumni mentoring, and digital/blended learning practices.</p></div></section>
+<section class="section"><div class="container grid cards-3"><article class="card" id="calendar"><h2>Academic Calendar</h2><p>Academic calendar details will be updated by the institute.</p></article><article class="card" id="curriculum"><h2>Curriculum / Syllabus</h2><p>Curriculum and syllabus links will be updated programme-wise.</p></article><article class="card" id="examination"><h2>Examination Information</h2><p>Examination notices and instructions will be published as per University of Mumbai and institute notifications.</p></article></div></section>
+<section class="section"><div class="container"><SectionHeader title="Academic Downloads" /><div class="grid cards-3">{downloads.map((item)=><DownloadCard item={item} />)}</div></div></section>
+<section class="section"><div class="container"><SectionHeader title="Student Academic Support" /><p>Student academic support includes mentoring, skill enhancement, academic notices, workshops, and faculty guidance. Details to be updated by the institute.</p></div></section>
+</BaseLayout>

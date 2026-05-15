@@ -1,0 +1,5 @@
+---
+const { href = '#', variant = 'primary', label, class: className = '' } = Astro.props;
+const external = href.startsWith('http');
+---
+<a class={`button button-${variant} ${className}`} href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>{label}<slot /></a>

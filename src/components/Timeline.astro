@@ -1,0 +1,4 @@
+---
+const { steps = [] } = Astro.props;
+---
+<ol class="timeline">{steps.map((step, index) => <li><span>{index + 1}</span><div><h3>{step.title || step}</h3>{step.text && <p>{step.text}</p>}</div></li>)}</ol>

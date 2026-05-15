@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+---
+<BaseLayout title="Accessibility" description="Accessibility statement for ADMIFMS website users.">
+<PageHero eyebrow="Institutional Information" title="Accessibility" subtitle="Accessibility statement for ADMIFMS website users." />
+<Breadcrumbs items={[{label:'Accessibility'}]} />
+<section class="section"><div class="container narrow card"><p>The website is designed with semantic HTML, keyboard-accessible navigation, visible focus states, readable text, and responsive layouts. Accessibility feedback can be shared through the contact page.</p></div></section>
+</BaseLayout>

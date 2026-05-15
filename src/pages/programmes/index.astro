@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import ProgrammeCard from '../../components/ProgrammeCard.astro';
+import CTASection from '../../components/CTASection.astro';
+import { programmes } from '../../data/programmes.js';
+---
+<BaseLayout title="Programmes" description="All academic programmes offered by ADMIFMS, University of Mumbai.">
+  <PageHero eyebrow="Programmes" title="All Programmes" subtitle="ADMIFMS offers undergraduate, postgraduate, integrated, retail operations, and doctoral pathways in management and finance." />
+  <Breadcrumbs items={[{label:'Programmes'}]} />
+  <section class="section"><div class="container"><div class="grid cards-3">{programmes.map((programme)=><ProgrammeCard programme={programme} />)}</div><p class="note">Detailed eligibility, intake, fees, and admission process will be updated as per University of Mumbai and institute notifications.</p></div></section>
+  <CTASection title="Admission Enquiry" text="Admission details will be updated as per University of Mumbai notifications and institute announcements." actions={[{href:'/admissions/',label:'Admissions'}, {href:'/contact/',label:'Enquire Now',variant:'secondary'}]} />
+</BaseLayout>

@@ -1,0 +1,10 @@
+---
+import Badge from './Badge.astro';
+const { notice } = Astro.props;
+---
+<article class="card notice-card" id={notice.data.category?.toLowerCase()}>
+  <div class="card-meta"><Badge label={notice.data.category} />{notice.data.isImportant && <Badge label="Important" tone="accent" />}<time datetime={notice.data.date.toISOString()}>{notice.data.date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</time></div>
+  <h3>{notice.data.title}</h3>
+  <p>{notice.data.description}</p>
+  {notice.data.fileUrl && <a class="text-link" href={notice.data.fileUrl} target="_blank" rel="noopener noreferrer">Open PDF / Notice</a>}
+</article>

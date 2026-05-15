@@ -1,0 +1,4 @@
+---
+const { label, tone = 'default' } = Astro.props;
+---
+<span class={`badge badge-${tone}`}>{label}<slot /></span>
