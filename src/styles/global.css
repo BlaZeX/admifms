@@ -4,12 +4,12 @@
   --navy-800: #3949ab;
   --blue-700: #3949ab;
   --blue-100: #f5f5f5;
-  
+
   --gold-500: #ffc107;
   --gold-100: #fff8e1;
   --red-600: #dc3545;
   --green-700: #198754;
-  
+
   --bg: #ffffff;
   --surface: #ffffff;
   --surface-soft: #f5f5f5;
@@ -23,7 +23,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -40,7 +41,9 @@ body {
   font-size: 16px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   line-height: 1.25;
   color: var(--navy-950);
   font-weight: 700;
@@ -80,7 +83,9 @@ ul {
   padding-left: 1.2rem;
 }
 
-a:focus-visible, button:focus-visible, summary:focus-visible {
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
   outline: 3px solid var(--gold-500);
   outline-offset: 2px;
   border-radius: 0.25rem;
@@ -135,14 +140,16 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   align-items: start;
 }
 
-.button-row, .stats-row {
+.button-row,
+.stats-row {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   align-items: center;
 }
 
-.muted, .note {
+.muted,
+.note {
   color: var(--muted);
 }
 
@@ -249,7 +256,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   padding: 0 0 1rem;
 }
 
-.nav > a, .nav-group > summary {
+.nav>a,
+.nav-group>summary {
   font-weight: 600;
   font-size: 15px;
   padding: 8px 12px;
@@ -261,7 +269,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   transition: all 0.2s ease;
 }
 
-.nav > a:hover, .nav-group > summary:hover {
+.nav>a:hover,
+.nav-group>summary:hover {
   background-color: var(--blue-100);
   color: var(--navy-950);
 }
@@ -284,11 +293,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   z-index: 80;
 }
 
-.nav-group[open] .dropdown, .nav-group:hover .dropdown {
+.nav-group[open] .dropdown,
+.nav-group:hover .dropdown {
   display: grid;
 }
 
-.dropdown a, .mobile-panel a {
+.dropdown a,
+.mobile-panel a {
   padding: 0.5rem 0.8rem;
   border-radius: 4px;
   text-decoration: none;
@@ -298,7 +309,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   transition: background-color 0.2s ease;
 }
 
-.dropdown a:hover, .mobile-panel a:hover {
+.dropdown a:hover,
+.mobile-panel a:hover {
   background-color: var(--blue-100);
   color: var(--navy-950);
 }
@@ -323,7 +335,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   top: 7rem;
   background: #fff;
   border: 1px solid var(--border);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   border-radius: 0.5rem;
   padding: 0.5rem;
   display: grid;
@@ -497,7 +509,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   transition: all 0.2s ease-in-out;
 }
 
-.filter-links a:hover, .filter-links a.active {
+.filter-links a:hover,
+.filter-links a.active {
   background-color: var(--navy-950);
   color: #ffffff;
   border-color: var(--navy-950);
@@ -525,24 +538,30 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   font-weight: 700;
 }
 
-.highlight-card, .recruiter-card {
+.highlight-card,
+.recruiter-card {
   border-top: 5px solid var(--gold-500);
 }
 
 /* Announcements & Notices Card Styling (MSEPP theme) */
-.notice-card, .event-card, .info-card {
+.notice-card,
+.event-card,
+.info-card {
   border-left: 5px solid var(--blue-700);
   background-color: var(--surface);
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 4px 15px 0px;
 }
 
-.notice-card:hover, .event-card:hover, .info-card:hover {
+.notice-card:hover,
+.event-card:hover,
+.info-card:hover {
   border-left-color: var(--gold-500);
 }
 
 /* PDF/Action Button under Notice Cards */
-.notice-card .text-link, .download-card .button-secondary {
+.notice-card .text-link,
+.download-card .button-secondary {
   display: inline-flex;
   align-items: center;
   background-color: var(--red-600);
@@ -557,7 +576,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   transition: background-color 0.2s ease;
 }
 
-.notice-card .text-link:hover, .download-card .button-secondary:hover {
+.notice-card .text-link:hover,
+.download-card .button-secondary:hover {
   background-color: var(--navy-950);
 }
 
@@ -590,7 +610,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 
 /* Circular Welcome Portrait layout (MSEPP Theme) */
-.director-layout, .director-card {
+.director-layout,
+.director-card {
   display: grid;
   grid-template-columns: 240px 1fr;
   gap: 2.5rem;
@@ -620,9 +641,11 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .director-layout {
     align-items: start;
   }
+
   .director-layout .portrait-placeholder {
     position: sticky;
-    top: 135px; /* Offset to clear the sticky navigation header comfortably */
+    top: 135px;
+    /* Offset to clear the sticky navigation header comfortably */
     align-self: start;
   }
 }
@@ -717,7 +740,8 @@ table {
   margin-bottom: 1.5rem;
 }
 
-th, td {
+th,
+td {
   padding: 12px 18px;
   text-align: left;
   border: 1px solid var(--border);
@@ -782,7 +806,10 @@ tr:nth-child(even) {
 }
 
 /* Layout Utilities & Placeholders */
-.image-placeholder, .portrait-placeholder, .avatar-placeholder, .logo-placeholder {
+.image-placeholder,
+.portrait-placeholder,
+.avatar-placeholder,
+.logo-placeholder {
   display: grid;
   place-items: center;
   background: linear-gradient(135deg, var(--blue-100), #ffffff);
@@ -821,19 +848,27 @@ tr:nth-child(even) {
 
 /* Media Queries for Responsiveness */
 @media (max-width: 980px) {
-  .nav, .header-cta {
+
+  .nav,
+  .header-cta {
     display: none;
   }
+
   .mobile-nav {
     display: block;
   }
-  .two-column, .director-layout, .director-card {
+
+  .two-column,
+  .director-layout,
+  .director-card {
     grid-template-columns: 1fr;
   }
+
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
+
   .page-hero {
     padding: 4.5rem 0;
   }
@@ -843,43 +878,55 @@ tr:nth-child(even) {
   .container {
     width: min(var(--max), 94vw);
   }
+
   .section {
     padding: 3rem 0;
   }
+
   .utility-inner {
     justify-content: flex-start;
   }
+
   .social-placeholders {
     display: none;
   }
+
   .brand strong {
     font-size: 0.95rem;
   }
+
   .logo-mark {
     min-width: 44px;
     height: 44px;
   }
+
   .footer-grid {
     grid-template-columns: 1fr;
   }
+
   .cta-inner {
     display: block;
     text-align: center;
   }
+
   .cta-inner .button-row {
     justify-content: center;
     margin-top: 1.5rem;
   }
+
   .stats-row {
     display: grid;
   }
+
   .page-hero {
     padding: 3.6rem 0;
   }
+
   .button {
     width: 100%;
     margin-bottom: 0.5rem;
   }
+
   .logo-grid {
     grid-template-columns: repeat(2, 1fr);
   }
