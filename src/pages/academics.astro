@@ -12,6 +12,36 @@ const downloads = (await getCollection('downloads')).filter((item)=>['Academic',
 <Breadcrumbs items={[{label:'Academics'}]} />
 <section class="section" id="teaching-learning"><div class="container"><SectionHeader title="Teaching-Learning Approach" /><p>ADMIFMS follows a student-centric and outcome-oriented teaching-learning approach integrating academic rigor with practical application, NEP 2020 orientation, case studies, simulations, presentations, group discussions, projects, research assignments, workshops, seminars, internships, corporate lectures, mock interviews, skill enhancement, alumni mentoring, and digital/blended learning practices.</p></div></section>
 <section class="section"><div class="container grid cards-3"><article class="card" id="calendar"><h2>Academic Calendar</h2><p>Academic calendar details will be updated by the institute.</p></article><article class="card" id="curriculum"><h2>Curriculum / Syllabus</h2><p>Curriculum and syllabus links will be updated programme-wise.</p></article><article class="card" id="examination"><h2>Examination Information</h2><p>Examination notices and instructions will be published as per University of Mumbai and institute notifications.</p></article></div></section>
-<section class="section"><div class="container"><SectionHeader title="Academic Downloads" /><div class="grid cards-3">{downloads.map((item)=><DownloadCard item={item} />)}</div></div></section>
+<section class="section"><div class="container"><SectionHeader title="Academic Downloads" /><div id="dynamic-academic-downloads" class="grid cards-3">{downloads.map((item)=><DownloadCard item={item} />)}</div></div></section>
 <section class="section"><div class="container"><SectionHeader title="Student Academic Support" /><p>Student academic support includes mentoring, skill enhancement, academic notices, workshops, and faculty guidance. Details to be updated by the institute.</p></div></section>
 </BaseLayout>
+
+<script>
+  import { fetchSheet, normalizeDriveLink } from '../utils/googleSheets.js';
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const downloads = await fetchSheet('Downloads');
+    if (downloads && downloads.length > 0) {
+      const container = document.getElementById('dynamic-academic-downloads');
+      if (container) {
+        // Filter by categories: Academic or Syllabus (case insensitive)
+        const academicDownloads = downloads.filter(item => 
+          ['academic', 'syllabus'].includes(item.Category?.toLowerCase())
+        );
+
+        if (academicDownloads.length > 0) {
+          container.innerHTML = academicDownloads.map(item => `
+            <article class="card download-card">
+              <div class="card-meta"><span class="badge" style="background:var(--blue-100); color:var(--navy-900);">${item.Category || 'Download'}</span></div>
+              <h3>${item.Title || 'Document'}</h3>
+              ${item.Description ? `<p>${item.Description}</p>` : ''}
+              ${item.Link ? `<a class="button button-secondary" href="${normalizeDriveLink(item.Link)}" target="_blank" rel="noopener noreferrer">Download PDF</a>` : ''}
+            </article>
+          `).join('');
+        } else {
+          container.innerHTML = `<p class="muted">No academic downloads found.</p>`;
+        }
+      }
+    }
+  });
+</script>

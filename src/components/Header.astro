@@ -17,7 +17,7 @@ const navGroups = [
   <TopBar />
   <div class="container header-main">
     <a class="brand" href="/" aria-label="ADMIFMS home">
-      <span class="logo-mark" aria-hidden="true">A</span>
+      <img src="/university-of-mumbai-logo.svg" alt="University of Mumbai Logo" class="logo-image" aria-hidden="true" />
       <span><strong>Alkesh Dinesh Mody Institute for Financial and Management Studies</strong><small>A Department of the University of Mumbai</small></span>
     </a>
     <details class="mobile-nav">
@@ -36,3 +36,29 @@ const navGroups = [
     <a href="/contact/">Contact</a>
   </nav>
 </header>
+
+<script>
+  // Enable smooth hover dropdowns for desktop navigation
+  const navGroups = document.querySelectorAll('.nav-group');
+  navGroups.forEach(group => {
+    group.addEventListener('mouseenter', () => {
+      if (window.innerWidth > 980) {
+        group.setAttribute('open', '');
+      }
+    });
+    group.addEventListener('mouseleave', () => {
+      if (window.innerWidth > 980) {
+        group.removeAttribute('open');
+      }
+    });
+
+    const summary = group.querySelector('summary');
+    if (summary) {
+      summary.addEventListener('click', (e) => {
+        if (window.innerWidth > 980) {
+          e.preventDefault(); // Prevent native details toggle on click for desktop
+        }
+      });
+    }
+  });
+</script>

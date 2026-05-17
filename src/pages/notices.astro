@@ -11,7 +11,7 @@ const categories = ['Admissions','Examination','Academic','Events','General'];
 <BaseLayout title="Notices" description="Official ADMIFMS notices listed newest first with categories and downloadable links where available.">
 <PageHero eyebrow="Notices" title="Notices" subtitle="Official notices for admissions, examinations, academics, events, and general updates." />
 <Breadcrumbs items={[{label:'Notices'}]} />
-<section class="section"><div class="container"><SectionHeader title="Browse by Category" /><div class="filter-links">{categories.map((category)=><a href={`#${category.toLowerCase()}`}>{category}</a>)}</div><div id="dynamic-notices-list" class="grid cards-3 notices-list">{notices.map((notice)=><NoticeCard notice={notice} />)}</div></div></section>
+<section class="section"><div class="container"><SectionHeader title="Browse by Category" /><div class="filter-links" id="notices-filter"><a href="#all" class="active" data-category="all">All</a>{categories.map((category)=><a href={`#${category.toLowerCase()}`} data-category={category.toLowerCase()}>{category}</a>)}</div><div id="dynamic-notices-list" class="grid cards-3 notices-list">{notices.map((notice)=><NoticeCard notice={notice} />)}</div></div></section>
 </BaseLayout>
 
 <script>
@@ -19,22 +19,47 @@ const categories = ['Admissions','Examination','Academic','Events','General'];
 
   document.addEventListener('DOMContentLoaded', async () => {
     const notices = await fetchSheet('Notices');
-    if (notices && notices.length > 0) {
-      const nc = document.getElementById('dynamic-notices-list');
-      if (nc) {
-        nc.innerHTML = notices.map(n => `
-          <article class="card notice-card" id="${n.Category?.toLowerCase() || ''}">
-            <div class="card-meta">
-              <span class="badge" style="background: var(--blue-100); color: var(--navy-900);">${n.Category || 'Notice'}</span>
-              ${n.Important === 'Yes' ? '<span class="badge badge-accent">Important</span>' : ''}
-              <time>${n.Date || ''}</time>
-            </div>
-            <h3>${n.Title || ''}</h3>
-            <p>${n.Description || ''}</p>
-            ${n.Link ? `<a class="text-link" href="${normalizeDriveLink(n.Link)}" target="_blank" rel="noopener noreferrer">Open Link</a>` : ''}
-          </article>
-        `).join('');
+    const nc = document.getElementById('dynamic-notices-list');
+    const filterLinks = document.querySelectorAll('#notices-filter a');
+
+    function renderNotices(filteredNotices) {
+      if (!nc) return;
+      if (!filteredNotices || filteredNotices.length === 0) {
+        nc.innerHTML = `<p class="muted" style="grid-column: 1 / -1; text-align: center; padding: 2rem 0;">No notices found in this category.</p>`;
+        return;
       }
+      nc.innerHTML = filteredNotices.map(n => `
+        <article class="card notice-card">
+          <div class="card-meta">
+            <span class="badge" style="background: var(--blue-100); color: var(--navy-900);">${n.Category || 'Notice'}</span>
+            ${n.Important === 'Yes' ? '<span class="badge badge-accent">Important</span>' : ''}
+            <time>${n.Date || ''}</time>
+          </div>
+          <h3>${n.Title || ''}</h3>
+          <p>${n.Description || ''}</p>
+          ${n.Link ? `<a class="text-link" href="${normalizeDriveLink(n.Link)}" target="_blank" rel="noopener noreferrer">Open Link</a>` : ''}
+        </article>
+      `).join('');
+    }
+
+    if (notices && notices.length > 0) {
+      renderNotices(notices);
+
+      filterLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          filterLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+
+          const category = link.getAttribute('data-category');
+          if (category === 'all') {
+            renderNotices(notices);
+          } else {
+            const filtered = notices.filter(n => n.Category?.toLowerCase() === category);
+            renderNotices(filtered);
+          }
+        });
+      });
     }
   });
 </script>
