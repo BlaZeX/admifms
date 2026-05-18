@@ -23,20 +23,33 @@ const albums = await getCollection('gallery');
     if (gallery && gallery.length > 0) {
       const gc = document.getElementById('dynamic-gallery-albums');
       if (gc) {
-        gc.innerHTML = gallery.map(item => `
-          <article class="card gallery-card">
-            ${item.ImageLink ? `<img src="${normalizeDriveLink(item.ImageLink)}" alt="${item.Title || ''}" class="image-placeholder" style="width:100%; height:200px; object-fit:cover; border:none; background:none; border-bottom:1px solid var(--border);"/>` : `<div class="image-placeholder">No Image</div>`}
-            <div style="padding: 1.5rem;">
-              <div class="card-meta">
-                ${item.Category ? `<span class="badge" style="background:var(--blue-100); color:var(--navy-900);">${item.Category}</span>` : ''}
-                ${item.Date ? `<time>${item.Date}</time>` : ''}
+        gc.innerHTML = gallery.map(item => {
+          const galleryLink = item.GalleryLink || item.AlbumLink || item['Gallery Link'] || item['Album Link'] || item.galleryLink || item.albumLink || '';
+          return `
+            <article class="card gallery-card">
+              <div>
+                ${item.ImageLink ? `<img src="${normalizeDriveLink(item.ImageLink)}" alt="${item.Title || ''}" class="image-placeholder" style="width:100%; height:200px; object-fit:cover; border:none; background:none; border-bottom:1px solid var(--border);"/>` : `<div class="image-placeholder" style="height:200px; display:grid; place-items:center; background:var(--surface-soft); color:var(--muted); font-weight:600; border-bottom:1px solid var(--border);">No Image</div>`}
+                <div style="padding: 1.5rem 1.5rem 0.5rem 1.5rem;">
+                  <div class="card-meta" style="margin-bottom:0.6rem; display:flex; justify-content:space-between; align-items:center; width:100%;">
+                    ${item.Category ? `<span class="badge" style="background:var(--blue-100); color:var(--navy-900);">${item.Category}</span>` : ''}
+                    ${item.Date ? `<time>${item.Date}</time>` : ''}
+                  </div>
+                  <h3 style="margin-top:0.5rem; margin-bottom:0.5rem; font-size:1.2rem; color:var(--navy-950);">${item.Title || 'Album'}</h3>
+                  ${item.Description ? `<p class="muted" style="margin-bottom:0; font-size:0.95rem; line-height:1.5;">${item.Description}</p>` : ''}
+                </div>
               </div>
-              <h3 style="margin-top:0.5rem; margin-bottom:0.5rem;">${item.Title || 'Album'}</h3>
-              ${item.Description ? `<p class="muted" style="margin-bottom:0;">${item.Description}</p>` : ''}
-            </div>
-          </article>
-        `).join('');
+              ${galleryLink ? `
+                <div style="padding: 0 1.5rem 1.5rem 1.5rem; margin-top: 1rem;">
+                  <a class="button button-secondary" href="${galleryLink}" target="_blank" rel="noopener noreferrer" style="font-size:0.85rem; padding:0.5rem 1.2rem; width:100%; text-align:center; display:inline-block; font-weight:700;">
+                    Open Photo Album
+                  </a>
+                </div>
+              ` : ''}
+            </article>
+          `;
+        }).join('');
       }
     }
   });
 </script>
+

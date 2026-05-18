@@ -6,7 +6,7 @@ const navGroups = [
   { label: 'Programmes', href: '/programmes/', links: [['MMS','/programmes/mms/'], ['M.Sc. Finance','/programmes/msc-finance/'], ['BMS','/programmes/bms/'], ['BMS-MMS Integrated','/programmes/bms-mms-integrated/'], ['B.Com Retail Operations Management (AEDP)','/programmes/bcom-retail-operations-management/'], ['PhD','/programmes/phd/']] },
   { label: 'Admissions', href: '/admissions/', links: [['Admission Overview','/admissions/#overview'], ['Eligibility','/admissions/#eligibility'], ['Admission Process','/admissions/#process'], ['Important Dates','/admissions/#dates'], ['FAQs','/admissions/#faqs']] },
   { label: 'Academics', href: '/academics/', links: [['Academic Calendar','/academics/#calendar'], ['Curriculum / Syllabus','/academics/#curriculum'], ['Faculty','/faculty/'], ['Teaching-Learning','/academics/#teaching-learning'], ['Examination','/academics/#examination'], ['Downloads','/downloads/']] },
-  { label: 'Placements', href: '/placements/', links: [['Placement Overview','/placements/#overview'], ['Recruiters','/placements/#recruiters'], ['Internship Support','/placements/#internships'], ['Student Development','/placements/#student-development'], ['Placement Contact','/placements/#contact']] },
+  { label: 'Placements', href: '/placements/', links: [['Placement Overview','/placements/#overview'], ['Placement Reports','/placements/#placement-reports'],['Recruiters','/placements/#recruiters'], ['Internship Support','/placements/#internships'], ['Student Development','/placements/#student-development'], ['Placement Contact','/placements/#contact']]  },
   { label: 'Student Life', href: '/student-life/', links: [['Student Council','/student-life/#student-council'], ['Committees','/committees/'], ['Events','/student-life/#events'], ['Clubs','/student-life/#clubs'], ['Gallery','/gallery/'], ['Student Achievements','/student-life/#achievements']] },
   { label: 'Research', href: '/research/', links: [['Research Overview','/research/#overview'], ['PhD','/programmes/phd/'], ['Publications','/research/#publications'], ['Conferences / Seminars','/research/#seminars'], ['Research Projects','/research/#projects']] },
   { label: 'Notices', href: '/notices/', links: [['Admissions','/notices/#admissions'], ['Examination','/notices/#examination'], ['Academic','/notices/#academic'], ['Events','/notices/#events'], ['General Notices','/notices/#general']] }
@@ -23,6 +23,10 @@ const navGroups = [
     <details class="mobile-nav">
       <summary>Menu</summary>
       <nav class="mobile-panel" aria-label="Mobile navigation">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0.75rem; border-bottom:1px solid var(--border); margin-bottom:0.5rem;">
+          <span style="font-weight:700; color:var(--navy-950); font-family:'Outfit',sans-serif;">Navigation</span>
+          <button id="close-mobile-menu" type="button" aria-label="Close menu" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--muted); line-height:1; padding:4px;">&times;</button>
+        </div>
         <a href="/">Home</a>
         {navGroups.map((group) => <details><summary>{group.label}</summary>{group.links.map(([label, href]) => <a href={href}>{label}</a>)}</details>)}
         <a href="/contact/">Contact</a>
@@ -61,4 +65,25 @@ const navGroups = [
       });
     }
   });
+
+  // Handle mobile menu close button and outside click to close
+  const mobileNav = document.querySelector('.mobile-nav');
+  const closeBtn = document.getElementById('close-mobile-menu');
+
+  if (mobileNav) {
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileNav.removeAttribute('open');
+      });
+    }
+
+    // Close when clicking outside of the details/panel element
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (mobileNav.hasAttribute('open') && !mobileNav.contains(target)) {
+        mobileNav.removeAttribute('open');
+      }
+    });
+  }
 </script>

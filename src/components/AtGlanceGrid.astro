@@ -1,4 +1,19 @@
 ---
 const { items = [] } = Astro.props;
 ---
-<div class="at-glance-grid">{items.map((item) => <div><span>{item.label}</span><strong>{item.value}</strong></div>)}</div>
+<div class="at-glance-grid">
+  {items.map((item) => {
+    const isWide = item.label.toLowerCase() === 'eligibility' || item.label.toLowerCase() === 'admission route';
+    return (
+      <div class={`glance-card ${isWide ? 'glance-card-wide' : ''}`}>
+        <div class="glance-icon-wrapper">
+          <i class={item.icon || 'ti ti-info-circle'}></i>
+        </div>
+        <div class="glance-content">
+          <span>{item.label}</span>
+          <strong>{item.value}</strong>
+        </div>
+      </div>
+    );
+  })}
+</div>

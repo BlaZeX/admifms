@@ -19,13 +19,13 @@ const faqs = [
 ];
 
 const glance = [
-  { label: 'Duration', value: programme.duration },
-  { label: 'Level', value: programme.level },
-  { label: 'Mode', value: programme.mode || 'Full-time' },
-  { label: 'Eligibility', value: programme.eligibility || 'Eligibility Criteria as per University of Mumbai guidelines and notifications.' },
-  { label: 'Intake', value: programme.intake || 'Details to be updated by the institute.' },
-  { label: 'Affiliation', value: 'University of Mumbai' },
-  { label: 'Admission route', value: programme.admissionRoute || 'As per University of Mumbai and institute notifications.' }
+  { label: 'Duration', value: programme.duration, icon: 'ti ti-calendar-time' },
+  { label: 'Level', value: programme.level, icon: 'ti ti-award' },
+  { label: 'Mode', value: programme.mode || 'Full-time', icon: 'ti ti-clock' },
+  { label: 'Eligibility', value: programme.eligibility || 'Eligibility Criteria as per University of Mumbai guidelines and notifications.', icon: 'ti ti-certificate' },
+  { label: 'Intake', value: programme.intake || 'Details to be updated by the institute.', icon: 'ti ti-users' },
+  { label: 'Affiliation', value: 'University of Mumbai', icon: 'ti ti-building-columns' },
+  { label: 'Admission route', value: programme.admissionRoute || 'As per University of Mumbai and institute notifications.', icon: 'ti ti-route' }
 ];
 ---
 <BaseLayout title={`${programme.title} | ADMIFMS`} description={programme.description}>

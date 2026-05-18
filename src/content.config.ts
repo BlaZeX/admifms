@@ -66,7 +66,8 @@ const gallery = defineCollection({
     category: z.string(),
     description: z.string(),
     coverImage: z.string().optional(),
-    images: z.array(z.string()).optional()
+    images: z.array(z.string()).optional(),
+    galleryLink: z.string().optional()
   })
 });
 
