@@ -58,7 +58,51 @@ const faculty = await getCollection("faculty");
 </BaseLayout>
 
 <script>
-  import { fetchSheet, normalizeDriveLink } from "../../utils/googleSheets.js";
+  import { fetchSheet, normalizeDriveLink, parseRichText } from "../../utils/googleSheets.js";
+
+  const escapeHtml = (value) =>
+    String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  const splitList = (value) =>
+    String(value || "")
+      .split(/\r?\n|;/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+  const renderList = (title, value) => {
+    const items = splitList(value);
+    if (items.length === 0) return "";
+
+    return `
+      <div class="faculty-card__section">
+        <h4>${title}</h4>
+        <ul>
+          ${items.map((item) => `<li>${parseRichText(escapeHtml(item))}</li>`).join("")}
+        </ul>
+      </div>
+    `;
+  };
+
+  const renderExpertise = (value) => {
+    const items = splitList(value);
+    if (items.length === 0) return "";
+
+    return `
+      <div class="faculty-card__section">
+        <h4>Areas of Expertise</h4>
+        <div class="faculty-card__tags">
+          ${items.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+        </div>
+      </div>
+    `;
+  };
+
+  const getField = (row, names) => names.map((name) => row[name]).find(Boolean) || "";
 
   document.addEventListener("DOMContentLoaded", async () => {
     const faculty = await fetchSheet("Faculty");
@@ -66,19 +110,32 @@ const faculty = await getCollection("faculty");
       const fc = document.getElementById("dynamic-faculty-list");
       if (fc) {
         fc.innerHTML = faculty
-          .map(
-            (f) => `
-          <article class="card">
-            ${f.PhotoLink ? `<img src="${normalizeDriveLink(f.PhotoLink)}" alt="${f.Name || ""}" class="portrait-placeholder" style="width:100%; object-fit:cover; border:none; background:none;"/>` : `<div class="portrait-placeholder">${f.Name?.charAt(0) || "F"}</div>`}
-            <h3>${f.Name || ""}</h3>
-            <p class="muted">${f.Designation || ""}</p>
-            ${f.Department ? `<p><strong>Department:</strong> ${f.Department}</p>` : ""}
-            ${f.Interests ? `<p><strong>Areas of Interest:</strong> ${f.Interests}</p>` : ""}
-            ${f.Email ? `<p><strong>Email:</strong> <a href="mailto:${f.Email}">${f.Email}</a></p>` : ""}
-            ${f.ProfileLink ? `<p><a class="text-link" href="${normalizeDriveLink(f.ProfileLink)}" target="_blank">View Profile / CV</a></p>` : ""}
+          .map((f) => {
+            const name = getField(f, ["Name"]);
+            const designation = getField(f, ["Designation"]);
+            const email = getField(f, ["Email"]);
+            const photo = getField(f, ["PhotoLink", "ProfilePic", "ProfilePicLink"]);
+            const expertise = getField(f, ["Expertise", "AreasOfExpertise", "Areas of Expertise", "Interests"]);
+            const publications = getField(f, ["ResearchPublications", "Research Publications", "Publications"]);
+            const awards = getField(f, ["AwardsHonours", "Awards & Honours", "Awards"]);
+            const profile = getField(f, ["ProfileLink", "CVLink"]);
+
+            return `
+          <article class="card faculty-card">
+            <div class="faculty-card__header">
+              ${photo ? `<img src="${normalizeDriveLink(photo)}" alt="${escapeHtml(name)}" class="faculty-card__photo"/>` : `<div class="faculty-card__photo faculty-card__photo--initials" aria-hidden="true">${escapeHtml(name?.charAt(0) || "F")}</div>`}
+              <div>
+                <h3>${profile ? `<a href="${normalizeDriveLink(profile)}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a>` : escapeHtml(name)}</h3>
+                ${designation ? `<p class="faculty-card__designation">${escapeHtml(designation)}</p>` : ""}
+                ${email ? `<a class="faculty-card__email" href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a>` : ""}
+              </div>
+            </div>
+            ${renderExpertise(expertise)}
+            ${renderList("Research Publications", publications)}
+            ${renderList("Awards & Honours", awards)}
           </article>
-        `,
-          )
+        `;
+          })
           .join("");
       }
     }

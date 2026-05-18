@@ -34,7 +34,8 @@ const faculty = defineCollection({
     areas: z.array(z.string()),
     profileImage: z.string().optional(),
     bio: z.string(),
-    publications: z.array(z.string()).optional()
+    publications: z.array(z.string()).optional(),
+    awards: z.array(z.string()).optional()
   })
 });
 

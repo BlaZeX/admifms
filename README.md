@@ -86,8 +86,17 @@ email: faculty.email@example.invalid
 areas: [Finance, Research Methods]
 bio: Brief faculty biography.
 publications: ["Publication title if approved"]
+awards: ["Award or honour if approved"]
 ---
 ```
+
+For the Google Sheet named `Faculty`, use these columns for the updated faculty page:
+
+```txt
+PhotoLink | Name | Designation | Email | Expertise | ResearchPublications | AwardsHonours | ProfileLink
+```
+
+Use semicolons or line breaks inside `Expertise`, `ResearchPublications`, and `AwardsHonours` when adding multiple items.
 
 Do not add faculty names or publication claims unless approved by the institute.
 

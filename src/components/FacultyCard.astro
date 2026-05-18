@@ -1,11 +1,48 @@
 ---
 const { member } = Astro.props;
+const initials = member.data.name.split(' ').map((part) => part[0]).slice(0, 2).join('');
+const expertise = member.data.areas || [];
+const publications = member.data.publications || [];
+const awards = member.data.awards || [];
 ---
 <article class="card faculty-card">
-  <div class="avatar-placeholder" aria-hidden="true">{member.data.name.split(' ').map((part) => part[0]).slice(0,2).join('')}</div>
-  <h3><a href={`/faculty/${member.slug}/`}>{member.data.name}</a></h3>
-  <p><strong>{member.data.designation}</strong></p>
-  <p>{member.data.qualification}</p>
-  <p class="muted">Areas: {member.data.areas.join(', ')}</p>
-  <a href={`mailto:${member.data.email}`}>{member.data.email}</a>
+  <div class="faculty-card__header">
+    {member.data.profileImage ? (
+      <img class="faculty-card__photo" src={member.data.profileImage} alt={member.data.name} />
+    ) : (
+      <div class="faculty-card__photo faculty-card__photo--initials" aria-hidden="true">{initials}</div>
+    )}
+    <div>
+      <h3><a href={`/faculty/${member.slug}/`}>{member.data.name}</a></h3>
+      <p class="faculty-card__designation">{member.data.designation}</p>
+      <a class="faculty-card__email" href={`mailto:${member.data.email}`}>{member.data.email}</a>
+    </div>
+  </div>
+
+  {expertise.length > 0 && (
+    <div class="faculty-card__section">
+      <h4>Areas of Expertise</h4>
+      <div class="faculty-card__tags">
+        {expertise.map((area) => <span>{area}</span>)}
+      </div>
+    </div>
+  )}
+
+  {publications.length > 0 && (
+    <div class="faculty-card__section">
+      <h4>Research Publications</h4>
+      <ul>
+        {publications.slice(0, 3).map((publication) => <li>{publication}</li>)}
+      </ul>
+    </div>
+  )}
+
+  {awards.length > 0 && (
+    <div class="faculty-card__section">
+      <h4>Awards & Honours</h4>
+      <ul>
+        {awards.slice(0, 3).map((award) => <li>{award}</li>)}
+      </ul>
+    </div>
+  )}
 </article>
