@@ -1,49 +1,126 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
-import PageHero from '../components/PageHero.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import InfoCard from '../components/InfoCard.astro';
-import EventCard from '../components/EventCard.astro';
-import { getCollection } from 'astro:content';
-const events = (await getCollection('events')).slice(0,3);
-const committees = ['Placement Committee','Media Committee','Alumni Committee','Artillery Committee','Social Responsibility Club / Anvaya','Entrepreneurship Cell','Cultural Committee','Sports-related activities'];
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import InfoCard from "../components/InfoCard.astro";
+import EventCard from "../components/EventCard.astro";
+import { getCollection } from "astro:content";
+const events = (await getCollection("events")).slice(0, 3);
+const committees = [
+  "Placement Committee",
+  "Media Committee",
+  "Alumni Committee",
+  "Artillery Committee",
+  "Social Responsibility Club / Anvaya",
+  "Entrepreneurship Cell",
+  "Cultural Committee",
+  "Sports-related activities",
+];
 ---
-<BaseLayout title="Student Life" description="Student council, committees, events, clubs, achievements, support, and gallery preview at ADMIFMS.">
-<PageHero eyebrow="Student Life" title="Student Life" subtitle="Student committees, clubs, events, achievements, support systems, and campus activities contribute to a rounded academic environment." />
-<Breadcrumbs items={[{label:'Student Life'}]} />
-<section class="section"><div class="container"><SectionHeader title="Student Life Overview" /><p>Student life at ADMIFMS includes academic events, student-led committees, clubs, placement activities, social initiatives, alumni interactions, and professional development activities. Details to be updated by the institute.</p></div></section>
-<section class="section" id="student-council"><div class="container"><SectionHeader title="Student Council, Committees and Clubs" /><div class="grid cards-3">{committees.map((committee)=><InfoCard title={committee} text="Details to be updated by the institute." />)}</div></div></section>
-<section class="section" id="events"><div class="container"><SectionHeader title="Events and Activities" /><div id="dynamic-events" class="grid cards-3">{events.map((event)=><EventCard event={event} />)}</div></div></section>
-<section class="section"><div class="container grid cards-3"><InfoCard title="Student Achievements" text="Verified student achievements can be published after institute approval." /><InfoCard title="Student Support" text="Mentoring, academic guidance, and support details will be updated by the institute." /><InfoCard title="Gallery Preview" text="Approved photographs and albums can be added to the gallery page." href="/gallery/" /></div></section>
+
+<BaseLayout
+  title="Student Life"
+  description="Student council, committees, events, clubs, achievements, support, and gallery preview at ADMIFMS."
+>
+  <PageHero
+    eyebrow="Student Life"
+    title="Student Life"
+    subtitle="Student committees, clubs, events, achievements, support systems, and campus activities contribute to a rounded academic environment."
+  />
+  <Breadcrumbs items={[{ label: "Student Life" }]} />
+  <section class="section">
+    <div class="container">
+      <SectionHeader title="Student Life Overview" /><p>
+        Student life at ADMIFMS includes academic events, student-led
+        committees, clubs, placement activities, social initiatives, alumni
+        interactions, and professional development activities. Details to be
+        updated by the institute.
+      </p>
+    </div>
+  </section>
+  <section class="section" id="student-council">
+    <div class="container">
+      <SectionHeader title="Student Council, Committees and Clubs" /><div
+        class="grid cards-3"
+      >
+        {
+          committees.map((committee) => (
+            <InfoCard
+              title={committee}
+              text="Details to be updated by the institute."
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="section" id="events">
+    <div class="container">
+      <SectionHeader title="Events and Activities" /><div
+        id="dynamic-events"
+        class="grid cards-3"
+      >
+        {events.map((event) => <EventCard event={event} />)}
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container grid cards-3">
+      <InfoCard
+        title="Student Achievements"
+        text="Verified student achievements can be published after institute approval."
+      /><InfoCard
+        title="Student Support"
+        text="Mentoring, academic guidance, and support details will be updated by the institute."
+      /><InfoCard
+        title="Gallery Preview"
+        text="Approved photographs and albums can be added to the gallery page."
+        href="/gallery/"
+      />
+    </div>
+  </section>
 </BaseLayout>
 
 <script>
-  import { fetchSheet, normalizeDriveLink } from '../utils/googleSheets.js';
+  import {
+    fetchSheet,
+    normalizeDriveLink,
+    parseRichText,
+  } from "../utils/googleSheets.js";
 
-  document.addEventListener('DOMContentLoaded', async () => {
-    const events = await fetchSheet('Events');
+  document.addEventListener("DOMContentLoaded", async () => {
+    const events = await fetchSheet("Events");
     if (events && events.length > 0) {
-      const container = document.getElementById('dynamic-events');
+      const container = document.getElementById("dynamic-events");
       if (container) {
-        container.innerHTML = events.slice(0, 6).map(e => `
+        container.innerHTML = events
+          .slice(0, 6)
+          .map(
+            (e) => `
           <article class="card event-card">
-            ${e.ImageLink ? `
+            ${
+              e.ImageLink
+                ? `
               <a class="event-image-link" href="${normalizeDriveLink(e.ImageLink)}" target="_blank" rel="noopener noreferrer" style="display:block; margin-bottom:1rem; border-radius:0.5rem; overflow:hidden; aspect-ratio:16/9;">
-                <img src="${normalizeDriveLink(e.ImageLink)}" alt="${e.Title || 'Event Image'}" style="width:100%; height:100%; object-fit:cover; border:none; display:block; transition:transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1.0)'"/>
+                <img src="${normalizeDriveLink(e.ImageLink)}" alt="${e.Title || "Event Image"}" style="width:100%; height:100%; object-fit:cover; border:none; display:block; transition:transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1.0)'"/>
               </a>
-            ` : `
-              <div class="image-placeholder" style="min-height:150px; margin-bottom:1rem; display:grid; place-items:center; background:linear-gradient(135deg, var(--blue-100), #fff); border:1px dashed #b8c7dc; border-radius:0.5rem;">${e.Category || 'Event'}</div>
-            `}
+            `
+                : `
+              <div class="image-placeholder" style="min-height:150px; margin-bottom:1rem; display:grid; place-items:center; background:linear-gradient(135deg, var(--blue-100), #fff); border:1px dashed #b8c7dc; border-radius:0.5rem;">${e.Category || "Event"}</div>
+            `
+            }
             <div class="card-meta">
-              <span class="badge" style="background: var(--blue-100); color: var(--navy-900);">${e.Category || ''}</span>
-              <time>${e.Date || ''}</time>
+              <span class="badge" style="background: var(--blue-100); color: var(--navy-900);">${e.Category || ""}</span>
+              <time>${e.Date || ""}</time>
             </div>
-            <h3>${e.Title || ''}</h3>
-            <p>${e.Description || ''}</p>
-            <p class="muted" style="font-size:0.9rem; margin-bottom:0;">${e.Location || ''}</p>
+            <h3>${e.Title || ""}</h3>
+            <p>${parseRichText(e.Description || "")}</p>
+            <p class="muted" style="font-size:0.9rem; margin-bottom:0;">${e.Location || ""}</p>
           </article>
-        `).join('');
+        `,
+          )
+          .join("");
       }
     }
   });

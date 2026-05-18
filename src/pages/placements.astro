@@ -1,63 +1,266 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
-import PageHero from '../components/PageHero.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import Timeline from '../components/Timeline.astro';
-import PlacementActivityCard from '../components/PlacementActivityCard.astro';
-import RecruiterLogoGrid from '../components/RecruiterLogoGrid.astro';
-import ContactCard from '../components/ContactCard.astro';
-import DownloadCard from '../components/DownloadCard.astro';
-import ButtonLink from '../components/ButtonLink.astro';
-import { getCollection } from 'astro:content';
-const steps = ['Student registration','Student profiling','Training and readiness activities','Recruiter outreach','Pre-placement talk','Application / shortlisting','Interviews / assessments','Final selection','Joining / internship follow-up'];
-const activities = ['Resume-building sessions','Mock interviews','Group discussion practice','Aptitude / analytical preparation','Advanced MS Excel training','Corporate grooming','Alumni mentoring','Career-pe-Charcha','Campus to Corporate Lecture Series','Corporate Mock Interviews','Summer Internship Awards','Budget Prediction Competition','ADM Memorial Lectures'];
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import PageHero from "../components/PageHero.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import Timeline from "../components/Timeline.astro";
+import PlacementActivityCard from "../components/PlacementActivityCard.astro";
+import RecruiterLogoGrid from "../components/RecruiterLogoGrid.astro";
+import ContactCard from "../components/ContactCard.astro";
+import DownloadCard from "../components/DownloadCard.astro";
+import ButtonLink from "../components/ButtonLink.astro";
+import { getCollection } from "astro:content";
+const steps = [
+  "Student registration",
+  "Student profiling",
+  "Training and readiness activities",
+  "Recruiter outreach",
+  "Pre-placement talk",
+  "Application / shortlisting",
+  "Interviews / assessments",
+  "Final selection",
+  "Joining / internship follow-up",
+];
+const activities = [
+  "Resume-building sessions",
+  "Mock interviews",
+  "Group discussion practice",
+  "Aptitude / analytical preparation",
+  "Advanced MS Excel training",
+  "Corporate grooming",
+  "Alumni mentoring",
+  "Career-pe-Charcha",
+  "Campus to Corporate Lecture Series",
+  "Corporate Mock Interviews",
+  "Summer Internship Awards",
+  "Budget Prediction Competition",
+  "ADM Memorial Lectures",
+];
 ---
-<BaseLayout title="Placements and Corporate Engagement" description="Placement support, recruiter engagement, internships, student development activities, and placement contact at ADMIFMS.">
-<PageHero eyebrow="Placements" title="Placements and Corporate Engagement" subtitle="Connecting students with industry through internships, corporate readiness initiatives, recruiter engagement, and structured placement support." actions={[{href:'/contact/',label:'Recruit from ADMIFMS'}, {href:'#contact',label:'Contact Placement Cell',variant:'secondary'}, {href:'/programmes/',label:'View Programmes',variant:'ghost'}]} />
-<Breadcrumbs items={[{label:'Placements'}]} />
-<section class="section" id="overview"><div class="container two-column"><article><SectionHeader title="Placement Overview" /><p>ADMIFMS has a placement ecosystem that supports students through internships, final placements, industry interactions, mentoring, and skill-building initiatives. Placement-related data, recruiter names, reports, and outcomes will be displayed only after approval by the institute.</p></article><aside class="card recruiter-card"><h2>For Recruiters</h2><p>Recruiters can connect with students across management, finance, commerce, integrated, and doctoral academic environments in Mumbai.</p><ButtonLink href="/contact/" label="Start Recruiter Enquiry" /></aside></div></section>
-<section class="section"><div class="container"><SectionHeader title="Placement Cell" /><div class="grid cards-3"><PlacementActivityCard title="Role of Placement Cell" text="Coordinates placement support, student readiness, and recruiter communication." /><PlacementActivityCard title="Student Coordination" text="Supports student registrations, profiles, communication, and professional conduct." /><PlacementActivityCard title="Faculty Guidance" text="Faculty guidance supports readiness, mentoring, and placement discipline." /><PlacementActivityCard title="Recruiter Interaction" text="Facilitates recruiter engagement, pre-placement communication, and institutional coordination." /><PlacementActivityCard title="Internship and Final Placement Support" text="Supports internship and placement processes as notified." /><PlacementActivityCard title="Professional Conduct" text="Students are expected to follow professional communication and institute instructions." /></div></div></section>
-<section class="section"><div class="container"><SectionHeader title="Placement Process" /><Timeline steps={steps} /></div></section>
-<section class="section" id="internships"><div class="container two-column"><article><SectionHeader title="Internship Support" /><p>Internship support may include summer internships, live projects where available, industry exposure, learning through practical assignments, and reflection and feedback mechanisms. Details will be updated by the institute.</p></article><aside class="card"><h2>Industry Exposure</h2><p>The institute may conduct guest lectures, workshops, mentoring sessions, and practical assignments to connect academic learning with workplace expectations.</p></aside></div></section>
-<section class="section" id="student-development"><div class="container"><SectionHeader title="Student Development Activities" subtitle="Career-readiness activities are published without unsupported placement statistics." /><div class="grid cards-3">{activities.map((activity)=><PlacementActivityCard title={activity} text="Details to be updated by the institute." />)}</div></div></section>
-<section class="section" id="recruiters"><div class="container"><SectionHeader title="Recruiter Engagement" /><div class="two-column"><article><h3>Why recruit from ADMIFMS?</h3><ul><li>Management and finance student pool</li><li>UG, PG, integrated, and doctoral academic environment</li><li>Mumbai location advantage near BKC</li><li>Industry-ready learning orientation through projects, internships, and development activities</li></ul><ButtonLink href="/contact/" label="Contact Placement Cell" /></article><aside id="dynamic-recruiters-grid"><RecruiterLogoGrid /></aside></div></div></section>
-<section class="section"><div class="container"><SectionHeader title="Placement Reports" subtitle="Approved reports only. Placeholder reports remain unpublished until approved." /><div id="dynamic-placement-reports" class="grid cards-3"><p class="note">Placement reports, internship reports, and recruiter brochures will be displayed after approval by the institute.</p></div></div></section>
-<section class="section" id="contact"><div class="container"><ContactCard title="Recruiter Contact" email="Details to be updated by the institute." phone="Details to be updated by the institute." address="Joravar Bhavan, Behind Saroj Sadan, University Campus, Vidya Nagari, Santacruz (East), Mumbai – 400098, Maharashtra, India." action={{href:'/contact/',label:'Send Enquiry'}} /><p class="disclaimer">Placement-related data, recruiter names, reports, and outcomes will be displayed only after approval by the institute.</p></div></section>
+
+<BaseLayout
+  title="Placements and Corporate Engagement"
+  description="Placement support, recruiter engagement, internships, student development activities, and placement contact at ADMIFMS."
+>
+  <PageHero
+    eyebrow="Placements"
+    title="Placements and Corporate Engagement"
+    subtitle="Connecting students with industry through internships, corporate readiness initiatives, recruiter engagement, and structured placement support."
+    actions={[
+      { href: "/contact/", label: "Recruit from ADMIFMS" },
+      {
+        href: "#contact",
+        label: "Contact Placement Cell",
+        variant: "secondary",
+      },
+      { href: "/programmes/", label: "View Programmes", variant: "ghost" },
+    ]}
+  />
+  <Breadcrumbs items={[{ label: "Placements" }]} />
+  <section class="section" id="overview">
+    <div class="container two-column">
+      <article>
+        <SectionHeader title="Placement Overview" />
+        <p>
+          The Alkesh Dinesh Mody Institute for Financial and Management Studies
+          (ADMIFMS) , as a department of University of Mumbai focuses on
+          bridging the gap between industry and academia through a structured
+          approach to training and placements related to students growth. The
+          institute believes in student development and its many industry
+          related activities that build an eco-system to enhance students
+          employability. The efforts of the placement cell are well recognized
+          by industry recruiters and associates. The systematic and structured
+          approach of the institute's training and placement cell is well
+          appreciated and ranked among the Top B-Schools in India for Return on
+          Investment (ROI) by prestigious publications like Fortune Magazine
+          (2025) , India Today, and Business Today. This ranking is a testament
+          to the institute's ability to produce high-caliber professionals at a
+          competitive cost, ensuring that both students and recruiters benefit
+          from maximum value.
+        </p>
+      </article><aside class="card recruiter-card">
+        <h2>For Recruiters</h2><p>
+          Recruiters can connect with students across management, finance,
+          commerce, integrated, and doctoral academic environments in Mumbai.
+        </p><ButtonLink href="/contact/" label="Start Recruiter Enquiry" />
+      </aside>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <SectionHeader title="Placement Cell" /><div class="grid cards-3">
+        <PlacementActivityCard
+          title="Role of Placement Cell"
+          text="Coordinates placement support, student readiness, and recruiter communication."
+        /><PlacementActivityCard
+          title="Student Coordination"
+          text="Supports student registrations, profiles, communication, and professional conduct."
+        /><PlacementActivityCard
+          title="Faculty Guidance"
+          text="Faculty guidance supports readiness, mentoring, and placement discipline."
+        /><PlacementActivityCard
+          title="Recruiter Interaction"
+          text="Facilitates recruiter engagement, pre-placement communication, and institutional coordination."
+        /><PlacementActivityCard
+          title="Internship and Final Placement Support"
+          text="Supports internship and placement processes as notified."
+        /><PlacementActivityCard
+          title="Professional Conduct"
+          text="Students are expected to follow professional communication and institute instructions."
+        />
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <SectionHeader title="Placement Process" />
+      <p>
+        ADMIFMS has an annual on campus placement process, which is supervised
+        by the Assistant Professor (Training and Placement Officer) and
+        coordinated by the students Placement Committee. Every year, the process
+        is structured as per corporate expectations and students aspirations.
+        The institute has a documented placement policy which is revised every
+        year as per the corporate expectations and students aspirations. The
+        placement process of the institute facilitates OJT, Summer internships
+        and Final placement for MMS & M.Sc. Finance Students. For other
+        programmes, the requirement is displayed on the notice board as and when
+        the opportunity arises. The OJT/Summer internship is a mandatory credit
+        component of the MMS & M.Sc. Finance Programme.
+      </p>
+      <Timeline steps={steps} />
+    </div>
+  </section>
+  <section class="section" id="internships">
+    <div class="container two-column">
+      <article>
+        <SectionHeader title="Internship Support" /><p>
+          The institute provides 100 % support for OJT & Internships to
+          students; it is viewed as crucial activities rather than mere academic
+          requirements. The placement students team plays a crucial role in this
+          process under the guidance of Training and Placement faculty to align
+          the industry offers as per students expectations. Through strategic
+          collaboration, students get their exposure to do their industry in
+          diverse specialisations and try to engage them in meaningful, real
+          world projects at leading organisations.
+        </p>
+      </article><aside class="card">
+        <h2>Industry Exposure</h2><p>
+          The institute also conducts guest lectures, workshops, mentoring
+          sessions, and practical assignments to connect academic learning with
+          workplace expectations.
+        </p>
+      </aside>
+    </div>
+  </section>
+  <section class="section" id="student-development">
+    <div class="container">
+      <SectionHeader title="Student Development Activities" subtitle="" />
+      <p>
+        The focus of student development activities in the placement cell is
+        their holistic development and professional grooming in terms of
+        networking, mentoring and collaboration . Therefore, every year, the
+        following students development activities are organised as per the
+        industry requirements:
+      </p>
+      <div class="grid cards-3">
+        {
+          activities.map((activity) => (
+            <PlacementActivityCard
+              title={activity}
+              text="Details to be updated by the institute."
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="section" id="recruiters">
+    <div class="container">
+      <SectionHeader title="Recruiter Engagement" /><div class="two-column">
+        <article>
+          <h3>Why recruit from ADMIFMS?</h3><ul>
+            <li>Management and finance student pool</li><li>
+              UG, PG, integrated, and doctoral academic environment
+            </li><li>Mumbai location advantage near BKC</li><li>
+              Industry-ready learning orientation through projects, internships,
+              and development activities
+            </li>
+          </ul><ButtonLink href="/contact/" label="Contact Placement Cell" />
+        </article><aside id="dynamic-recruiters-grid">
+          <RecruiterLogoGrid />
+        </aside>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        title="Placement Reports"
+        subtitle="Approved reports only. Placeholder reports remain unpublished until approved."
+      /><div id="dynamic-placement-reports" class="grid cards-3">
+        <p class="note">
+          Placement reports, internship reports, and recruiter brochures will be
+          displayed after approval by the institute.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="contact">
+    <div class="container">
+      <ContactCard
+        title="Recruiter Contact"
+        email="Details to be updated by the institute."
+        phone="Details to be updated by the institute."
+        address="Joravar Bhavan, Behind Saroj Sadan, University Campus, Vidya Nagari, Santacruz (East), Mumbai – 400098, Maharashtra, India."
+        action={{ href: "/contact/", label: "Send Enquiry" }}
+      /><p class="disclaimer">
+        Placement-related data, recruiter names, reports, and outcomes will be
+        displayed only after approval by the institute.
+      </p>
+    </div>
+  </section>
 </BaseLayout>
 
 <script>
-  import { fetchSheet, normalizeDriveLink } from '../utils/googleSheets.js';
+  import { fetchSheet, normalizeDriveLink } from "../utils/googleSheets.js";
 
-  document.addEventListener('DOMContentLoaded', async () => {
+  document.addEventListener("DOMContentLoaded", async () => {
     // Recruiters
-    const recruiters = await fetchSheet('Recruiters');
+    const recruiters = await fetchSheet("Recruiters");
     if (recruiters && recruiters.length > 0) {
-      const rc = document.getElementById('dynamic-recruiters-grid');
+      const rc = document.getElementById("dynamic-recruiters-grid");
       if (rc) {
         rc.innerHTML = `<div class="logo-grid">
-          ${recruiters.map(r => `
+          ${recruiters
+            .map(
+              (r) => `
             <div class="logo-placeholder" style="background:#fff; border:1px solid var(--border); border-radius:0.5rem; padding:1rem; display:flex; align-items:center; justify-content:center;">
-              ${r.LogoLink ? `<img src="${normalizeDriveLink(r.LogoLink)}" alt="${r.Name || 'Recruiter'}" style="max-width:100%; max-height:80px; object-fit:contain;"/>` : `<span style="font-weight:bold; color:var(--navy-900); text-align:center;">${r.Name || 'Recruiter'}</span>`}
+              ${r.LogoLink ? `<img src="${normalizeDriveLink(r.LogoLink)}" alt="${r.Name || "Recruiter"}" style="max-width:100%; max-height:80px; object-fit:contain;"/>` : `<span style="font-weight:bold; color:var(--navy-900); text-align:center;">${r.Name || "Recruiter"}</span>`}
             </div>
-          `).join('')}
+          `,
+            )
+            .join("")}
         </div>`;
       }
     }
 
     // Placement Reports
-    const reports = await fetchSheet('PlacementReports');
+    const reports = await fetchSheet("PlacementReports");
     if (reports && reports.length > 0) {
-      const prc = document.getElementById('dynamic-placement-reports');
+      const prc = document.getElementById("dynamic-placement-reports");
       if (prc) {
-        prc.innerHTML = reports.map(r => `
+        prc.innerHTML = reports
+          .map(
+            (r) => `
           <article class="card download-card">
-            <div class="card-meta"><span class="badge" style="background:var(--blue-100); color:var(--navy-900);">${r.Category || 'Report'}</span></div>
-            <h3>${r.Title || 'Placement Report'}</h3>
-            ${r.Description ? `<p>${r.Description}</p>` : ''}
-            ${r.Link ? `<a class="button button-secondary" href="${normalizeDriveLink(r.Link)}" target="_blank" rel="noopener noreferrer">Download PDF</a>` : ''}
+            <div class="card-meta"><span class="badge" style="background:var(--blue-100); color:var(--navy-900);">${r.Category || "Report"}</span></div>
+            <h3>${r.Title || "Placement Report"}</h3>
+            ${r.Description ? `<p>${r.Description}</p>` : ""}
+            ${r.Link ? `<a class="button button-secondary" href="${normalizeDriveLink(r.Link)}" target="_blank" rel="noopener noreferrer">Download PDF</a>` : ""}
           </article>
-        `).join('');
+        `,
+          )
+          .join("");
       }
     }
   });

@@ -1,40 +1,85 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import PageHero from '../../components/PageHero.astro';
-import SectionHeader from '../../components/SectionHeader.astro';
-import FacultyCard from '../../components/FacultyCard.astro';
-import InfoCard from '../../components/InfoCard.astro';
-import { getCollection } from 'astro:content';
-const faculty = await getCollection('faculty');
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import PageHero from "../../components/PageHero.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import FacultyCard from "../../components/FacultyCard.astro";
+import InfoCard from "../../components/InfoCard.astro";
+import { getCollection } from "astro:content";
+const faculty = await getCollection("faculty");
 ---
-<BaseLayout title="Faculty" description="Faculty profiles, areas of interest, achievements, and academic contact information for ADMIFMS.">
-<PageHero eyebrow="Faculty" title="Faculty" subtitle="Faculty profiles, academic interests, teaching areas, achievements, and contact information." />
-<Breadcrumbs items={[{label:'Faculty'}]} />
-<section class="section"><div class="container"><SectionHeader title="Director / Head Profile" /><article class="card director-card"><div class="portrait-placeholder">Photo placeholder</div><div><h3>Director / Head</h3><p>Name and profile details to be updated by the institute.</p></div></article></div></section>
-<section class="section"><div class="container"><SectionHeader title="Core Faculty Profiles" /><div id="dynamic-faculty-list" class="grid cards-3">{faculty.map((member)=><FacultyCard member={member} />)}</div></div></section>
-<section class="section"><div class="container grid cards-3"><InfoCard title="Visiting Faculty / Industry Experts" text="Details to be updated by the institute." /><InfoCard title="Faculty Achievements" text="Verified faculty achievements can be published after institute approval." /><InfoCard title="Faculty Office Note" text="For academic communication, use official contact details and institute notices." /></div></section>
+
+<BaseLayout
+  title="Faculty"
+  description="Faculty profiles, areas of interest, achievements, and academic contact information for ADMIFMS."
+>
+  <PageHero
+    eyebrow="Faculty"
+    title="Faculty"
+    subtitle="Faculty profiles, academic interests, teaching areas, achievements, and contact information."
+  />
+  <Breadcrumbs items={[{ label: "Faculty" }]} />
+  <section class="section">
+    <div class="container">
+      <SectionHeader title="Director" /><article class="card director-card">
+        <div class="portrait-placeholder">
+          <img src="/assets/img/dr-smita-shukla.webp" />
+        </div><div>
+          <h3>Dr. Smita Shukla</h3>
+          <p>Profile content here</p>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <SectionHeader title="Core Faculty Profiles" /><div
+        id="dynamic-faculty-list"
+        class="grid cards-3"
+      >
+        {faculty.map((member) => <FacultyCard member={member} />)}
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container grid cards-3">
+      <InfoCard
+        title="Visiting Faculty / Industry Experts"
+        text="Details to be updated by the institute."
+      /><InfoCard
+        title="Faculty Achievements"
+        text="Verified faculty achievements can be published after institute approval."
+      /><InfoCard
+        title="Faculty Office Note"
+        text="For academic communication, use official contact details and institute notices."
+      />
+    </div>
+  </section>
 </BaseLayout>
 
 <script>
-  import { fetchSheet, normalizeDriveLink } from '../../utils/googleSheets.js';
+  import { fetchSheet, normalizeDriveLink } from "../../utils/googleSheets.js";
 
-  document.addEventListener('DOMContentLoaded', async () => {
-    const faculty = await fetchSheet('Faculty');
+  document.addEventListener("DOMContentLoaded", async () => {
+    const faculty = await fetchSheet("Faculty");
     if (faculty && faculty.length > 0) {
-      const fc = document.getElementById('dynamic-faculty-list');
+      const fc = document.getElementById("dynamic-faculty-list");
       if (fc) {
-        fc.innerHTML = faculty.map(f => `
+        fc.innerHTML = faculty
+          .map(
+            (f) => `
           <article class="card">
-            ${f.PhotoLink ? `<img src="${normalizeDriveLink(f.PhotoLink)}" alt="${f.Name || ''}" class="portrait-placeholder" style="width:100%; object-fit:cover; border:none; background:none;"/>` : `<div class="portrait-placeholder">${f.Name?.charAt(0) || 'F'}</div>`}
-            <h3>${f.Name || ''}</h3>
-            <p class="muted">${f.Designation || ''}</p>
-            ${f.Department ? `<p><strong>Department:</strong> ${f.Department}</p>` : ''}
-            ${f.Interests ? `<p><strong>Areas of Interest:</strong> ${f.Interests}</p>` : ''}
-            ${f.Email ? `<p><strong>Email:</strong> <a href="mailto:${f.Email}">${f.Email}</a></p>` : ''}
-            ${f.ProfileLink ? `<p><a class="text-link" href="${normalizeDriveLink(f.ProfileLink)}" target="_blank">View Profile / CV</a></p>` : ''}
+            ${f.PhotoLink ? `<img src="${normalizeDriveLink(f.PhotoLink)}" alt="${f.Name || ""}" class="portrait-placeholder" style="width:100%; object-fit:cover; border:none; background:none;"/>` : `<div class="portrait-placeholder">${f.Name?.charAt(0) || "F"}</div>`}
+            <h3>${f.Name || ""}</h3>
+            <p class="muted">${f.Designation || ""}</p>
+            ${f.Department ? `<p><strong>Department:</strong> ${f.Department}</p>` : ""}
+            ${f.Interests ? `<p><strong>Areas of Interest:</strong> ${f.Interests}</p>` : ""}
+            ${f.Email ? `<p><strong>Email:</strong> <a href="mailto:${f.Email}">${f.Email}</a></p>` : ""}
+            ${f.ProfileLink ? `<p><a class="text-link" href="${normalizeDriveLink(f.ProfileLink)}" target="_blank">View Profile / CV</a></p>` : ""}
           </article>
-        `).join('');
+        `,
+          )
+          .join("");
       }
     }
   });

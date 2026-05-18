@@ -47,3 +47,49 @@ export function normalizeDriveLink(url) {
   }
   return url;
 }
+
+/**
+ * Parses simple Markdown and HTML tags inside a Google Sheets cell
+ * to produce safely-styled HTML for web rendering.
+ * @param {string} text Raw text content from Google Sheet cell
+ * @returns {string} Formatted HTML string
+ */
+export function parseRichText(text) {
+  if (!text) return '';
+  
+  let html = text;
+
+  // 1. Bold: **text** or __text__ -> <strong>text</strong>
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+  // 2. Italic: *text* or _text_ -> <em>text</em>
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+
+  // 3. Markdown Links: [label](url) -> formatted anchor tag
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) => {
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 600;">${label}</a>`;
+  });
+
+  // 4. Standard HTML Links: <a href="url"> -> inject secure & styling attributes
+  html = html.replace(/<a\s+([^>]*?)href="([^"]+)"([^>]*?)>/gi, (match, prefix, url, suffix) => {
+    let attrs = '';
+    if (!prefix.includes('target=') && !suffix.includes('target=')) {
+      attrs += 'target="_blank" ';
+    }
+    if (!prefix.includes('rel=') && !suffix.includes('rel=')) {
+      attrs += 'rel="noopener noreferrer" ';
+    }
+    if (!prefix.includes('style=') && !suffix.includes('style=')) {
+      attrs += 'style="color: inherit; text-decoration: underline; font-weight: 600;" ';
+    }
+    return `<a ${attrs}${prefix}href="${url}"${suffix}>`;
+  });
+
+  // 5. Line Breaks: \n -> <br>
+  html = html.replace(/\r?\n/g, '<br>');
+
+  return html;
+}
+
