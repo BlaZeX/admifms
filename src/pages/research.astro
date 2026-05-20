@@ -5,37 +5,17 @@ import PageHero from '../components/PageHero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import InfoCard from '../components/InfoCard.astro';
 import { getCollection } from 'astro:content';
-import { fetchSheet } from '../utils/googleSheets.js';
 
-// Try to fetch publications from Google Sheet
-const sheetPublications = await fetchSheet('FacultyPublication');
-
-// Build unified publications array
-let publications = [];
-
-if (sheetPublications && sheetPublications.length > 0) {
-  publications = sheetPublications
-    .map((row) => ({
-      title: row['Research Title'] || row['research title'] || row['Title'] || row['title'] || '',
-      authors: row['Faculty Name'] || row['faculty name'] || 'Faculty Member',
-      year: row['Published On'] || row['published on'] || row['Year'] || row['year'] || '',
-      journal: row['Published In'] || row['published in'] || row['Journal'] || row['journal'] || '',
-      type: row['Type'] || row['type'] || 'Research Paper',
-      link: row['URL'] || row['url'] || row['Link'] || row['link'] || ''
-    }))
-    .filter((pub) => pub.title); // Skip empty rows
-} else {
-  // Fallback to local markdown files if Google Sheets tab is empty/missing
-  const localPublications = await getCollection('publications');
-  publications = localPublications.map((pub) => ({
-    title: pub.data.title,
-    authors: pub.data.authors,
-    year: pub.data.year,
-    journal: pub.data.journal,
-    type: pub.data.type,
-    link: pub.data.link
-  }));
-}
+// Fetch local publications as static fallback/initial state (SEO-friendly)
+const localPublications = await getCollection('publications');
+const staticPublications = localPublications.map((pub) => ({
+  title: pub.data.title,
+  authors: pub.data.authors,
+  year: pub.data.year,
+  journal: pub.data.journal,
+  type: pub.data.type,
+  link: pub.data.link
+}));
 ---
 
 <BaseLayout title="Research | ADMIFMS" description="Research overview, PhD linkage, faculty publications, seminars, projects, collaborations, and research contact at ADMIFMS.">
@@ -78,9 +58,11 @@ if (sheetPublications && sheetPublications.length > 0) {
   <section class="section" id="publications">
     <div class="container">
       <SectionHeader title="Faculty Publications" />
-      {publications.length > 0 ? (
-        <div class="grid cards-3">
-          {publications.map((pub) => (
+      
+      <div id="publications-container">
+        <!-- Render static list first (will be replaced by live spreadsheet data if available) -->
+        <div id="publications-list" class="grid cards-3">
+          {staticPublications.map((pub) => (
             <article class="card publication-card">
               <div class="card-meta">
                 <span class="badge">{pub.type}</span>
@@ -104,17 +86,85 @@ if (sheetPublications && sheetPublications.length > 0) {
               )}
             </article>
           ))}
+          {staticPublications.length === 0 && (
+            <p class="empty-state">Publication details to be updated by the institute.</p>
+          )}
         </div>
-      ) : (
-        <p class="empty-state">Publication details to be updated by the institute.</p>
-      )}
+      </div>
     </div>
   </section>
 </BaseLayout>
 
+<script>
+  import { fetchSheet } from "../utils/googleSheets.js";
+
+  const loadPublications = async () => {
+    try {
+      const sheetPublications = await fetchSheet("FacultyPublication");
+      
+      if (sheetPublications && sheetPublications.length > 0) {
+        const publicationsList = document.getElementById("publications-list");
+        if (publicationsList) {
+          const dynamicHtml = sheetPublications
+            .map((row) => {
+              const title = row["Research Title"] || row["research title"] || row["Title"] || row["title"] || "";
+              const authors = row["Faculty Name"] || row["faculty name"] || "Faculty Member";
+              const year = row["Published On"] || row["published on"] || row["Year"] || row["year"] || "";
+              const journal = row["Published In"] || row["published in"] || row["Journal"] || row["journal"] || "";
+              const type = row["Type"] || row["type"] || "Research Paper";
+              const link = row["URL"] || row["url"] || row["Link"] || row["link"] || "";
+
+              if (!title) return ""; // Skip empty rows
+
+              return `
+                <article class="card publication-card">
+                  <div class="card-meta">
+                    <span class="badge">${type}</span>
+                    ${year ? `<span class="badge badge-accent">${year}</span>` : ""}
+                  </div>
+                  <h3>${title}</h3>
+                  <p class="pub-authors">
+                    <strong>Author(s):</strong> ${authors}
+                  </p>
+                  ${journal ? `
+                    <p class="pub-journal">
+                      <strong>Published In:</strong> ${journal}
+                    </p>
+                  ` : ""}
+                  ${link ? `
+                    <div class="pub-link-wrapper">
+                      <a class="text-link" href="${link}" target="_blank" rel="noopener noreferrer">
+                        View Publication
+                      </a>
+                    </div>
+                  ` : ""}
+                </article>
+              `;
+            })
+            .filter(Boolean)
+            .join("");
+
+          if (dynamicHtml.trim()) {
+            publicationsList.innerHTML = dynamicHtml;
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching dynamic publications:", error);
+    }
+  };
+
+  // Run load on page ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadPublications);
+  } else {
+    loadPublications();
+  }
+</script>
+
 <style>
   /* Premium publication card styling matching school styling cues */
-  .publication-card {
+  :global(.publication-card) {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -122,12 +172,12 @@ if (sheetPublications && sheetPublications.length > 0) {
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-top-color 0.25s ease;
   }
 
-  .publication-card:hover {
+  :global(.publication-card:hover) {
     border-top-color: var(--gold-500);
     transform: translateY(-4px);
   }
 
-  .publication-card h3 {
+  :global(.publication-card h3) {
     font-size: 1.15rem;
     line-height: 1.45;
     margin: 0.5rem 0 1rem;
@@ -135,21 +185,21 @@ if (sheetPublications && sheetPublications.length > 0) {
     font-weight: 700;
   }
 
-  .pub-authors,
-  .pub-journal {
+  :global(.pub-authors),
+  :global(.pub-journal) {
     font-size: 0.92rem;
     color: var(--text);
     margin: 0 0 0.5rem;
     line-height: 1.5;
   }
 
-  .pub-authors strong,
-  .pub-journal strong {
+  :global(.pub-authors strong),
+  :global(.pub-journal strong) {
     color: var(--navy-800);
     font-weight: 600;
   }
 
-  .pub-link-wrapper {
+  :global(.pub-link-wrapper) {
     margin-top: auto;
     padding-top: 1.25rem;
   }

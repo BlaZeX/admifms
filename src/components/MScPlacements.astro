@@ -1,127 +1,160 @@
----
-import { fetchSheet, normalizeDriveLink } from "../utils/googleSheets.js";
+<div class="msc-placements-wrapper" id="msc-placements-root">
+  <!-- Placements Section (Dynamically Loaded) -->
+  <div id="placements-container" class="placements-section hidden">
+    <div class="section-header">
+      <h2>MSc. Students Placed</h2>
+      <p>
+        Our students are placed in top tier financial institutions, analytics
+        firms and corporate treasury offices. Here is the academic year-wise
+        placement overview.
+      </p>
+    </div>
 
-// Fetch the placement data and recruiters list from Google Sheets
-const placements = await fetchSheet("MSc_Placements");
-const recruiters = await fetchSheet("MSc_Recruiters");
-
-const hasPlacements = placements && placements.length > 0;
-const hasRecruiters = recruiters && recruiters.length > 0;
----
-
-{
-  hasPlacements && (
-    <div class="placements-section">
-      <div class="section-header">
-        <h2>MSc. Students Placed</h2>
-        <p>
-          Our students are placed in top tier financial institutions, analytics
-          firms and corporate treasury offices. Here is the academic year-wise
-          placement overview.
-        </p>
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 100px;">Sr No.</th>
+              <th scope="col">Academic Year</th>
+              <th scope="col">Highest CTC</th>
+              <th scope="col">Average CTC</th>
+            </tr>
+          </thead>
+          <tbody id="placements-tbody">
+            <!-- Populated dynamically client-side -->
+          </tbody>
+        </table>
       </div>
+    </div>
+  </div>
 
-      <div class="table-card">
-        <div class="table-responsive">
-          <table class="styled-table">
-            <thead>
-              <tr>
-                <th scope="col" style="width: 100px;">
-                  Sr No.
-                </th>
-                <th scope="col">Academic Year</th>
-                <th scope="col">Highest CTC</th>
-                <th scope="col">Average CTC</th>
-              </tr>
-            </thead>
-            <tbody>
-              {placements.map((row) => (
+  <!-- Recruiters Section (Dynamically Loaded) -->
+  <div id="recruiters-container" class="recruiters-section hidden">
+    <div class="section-header">
+      <h2>Key Recruiters</h2>
+      <p>
+        Leading organizations that regularly recruit from our MSc. Finance
+        programme.
+      </p>
+    </div>
+
+    <div class="marquee-wrapper">
+      <div class="marquee-content" id="recruiters-marquee">
+        <!-- Populated dynamically client-side -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Client-Side Skeleton Loader -->
+  <div id="placements-loader" class="placements-loader-container">
+    <div class="skeleton-wrapper">
+      <div class="skeleton-header"></div>
+      <div class="skeleton-table"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { fetchSheet, normalizeDriveLink } from "../utils/googleSheets.js";
+
+  const loadDynamicData = async () => {
+    try {
+      const [placements, recruiters] = await Promise.all([
+        fetchSheet("MSc_Placements"),
+        fetchSheet("MSc_Recruiters"),
+      ]);
+
+      const placementsContainer = document.getElementById(
+        "placements-container",
+      );
+      const recruitersContainer = document.getElementById(
+        "recruiters-container",
+      );
+      const loader = document.getElementById("placements-loader");
+
+      if (placements && placements.length > 0) {
+        const tbody = document.getElementById("placements-tbody");
+        if (tbody) {
+          tbody.innerHTML = placements
+            .map((row) => {
+              const srNo =
+                row["Sr No."] || row["sr no."] || row["Sr. No."] || "-";
+              const academicYear =
+                row["Academic Year"] || row["academic year"] || "-";
+              const highestCtc =
+                row["Highest CTC"] || row["highest ctc"] || "-";
+              const averageCtc =
+                row["Average CTC"] || row["average ctc"] || "-";
+
+              return `
                 <tr>
-                  <td class="sr-no">
-                    {row["Sr No."] || row["sr no."] || row["Sr. No."] || "-"}
-                  </td>
-                  <td class="academic-year">
-                    {row["Academic Year"] || row["academic year"] || "-"}
-                  </td>
-                  <td class="ctc highest-ctc">
-                    {row["Highest CTC"] || row["highest ctc"] || "-"}
-                  </td>
-                  <td class="ctc average-ctc">
-                    {row["Average CTC"] || row["average ctc"] || "-"}
-                  </td>
+                  <td class="sr-no" style="text-align: center;">${srNo}</td>
+                  <td class="academic-year" style="text-align: center;">${academicYear}</td>
+                  <td class="ctc highest-ctc" style="text-align: center;">${highestCtc}</td>
+                  <td class="ctc average-ctc" style="text-align: center;">${averageCtc}</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  )
-}
+              `;
+            })
+            .join("");
 
-{
-  hasRecruiters && (
-    <div class="recruiters-section">
-      <div class="section-header">
-        <h2>Key Recruiters</h2>
-        <p>
-          Leading organizations that regularly recruit from our MSc. Finance
-          programme.
-        </p>
-      </div>
+          placementsContainer.classList.remove("hidden");
+        }
+      }
 
-      <div class="marquee-wrapper">
-        <div class="marquee-content">
-          {recruiters.map((recruiter) => {
-            const logoUrl =
-              recruiter["Logo URL"] || recruiter["logo url"] || "";
-            const companyName =
-              recruiter["Company Name"] ||
-              recruiter["company name"] ||
-              "Recruiter";
-            return (
-              <div class="recruiter-logo" title={companyName}>
-                {logoUrl ? (
-                  <img
-                    src={normalizeDriveLink(logoUrl)}
-                    alt={`${companyName} Logo`}
-                    loading="lazy"
-                  />
-                ) : (
-                  <span class="company-text">{companyName}</span>
-                )}
-              </div>
-            );
-          })}
-          {/* Duplicate the items to allow continuous looping */}
-          {recruiters.map((recruiter) => {
-            const logoUrl =
-              recruiter["Logo URL"] || recruiter["logo url"] || "";
-            const companyName =
-              recruiter["Company Name"] ||
-              recruiter["company name"] ||
-              "Recruiter";
-            return (
-              <div class="recruiter-logo" title={companyName}>
-                {logoUrl ? (
-                  <img
-                    src={normalizeDriveLink(logoUrl)}
-                    alt={`${companyName} Logo`}
-                    loading="lazy"
-                  />
-                ) : (
-                  <span class="company-text">{companyName}</span>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  )
-}
+      if (recruiters && recruiters.length > 0) {
+        const marquee = document.getElementById("recruiters-marquee");
+        if (marquee) {
+          const recruiterHtml = recruiters
+            .map((recruiter) => {
+              const logoUrl =
+                recruiter["Logo URL"] || recruiter["logo url"] || "";
+              const companyName =
+                recruiter["Company Name"] ||
+                recruiter["company name"] ||
+                "Recruiter";
+
+              return `
+                <div class="recruiter-logo" title="${companyName}">
+                  ${
+                    logoUrl
+                      ? `<img src="${normalizeDriveLink(logoUrl)}" alt="${companyName} Logo" loading="lazy" />`
+                      : `<span class="company-text">${companyName}</span>`
+                  }
+                </div>
+              `;
+            })
+            .join("");
+
+          // Duplicate the list of logos for infinite marquee effect
+          marquee.innerHTML = recruiterHtml + recruiterHtml;
+          recruitersContainer.classList.remove("hidden");
+        }
+      }
+
+      if (loader) {
+        loader.classList.add("hidden");
+      }
+    } catch (error) {
+      console.error("Error loading placements dynamically:", error);
+      const loader = document.getElementById("placements-loader");
+      if (loader) loader.classList.add("hidden");
+    }
+  };
+
+  // Run on page load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadDynamicData);
+  } else {
+    loadDynamicData();
+  }
+</script>
 
 <style>
+  .hidden {
+    display: none !important;
+  }
+
   .placements-section {
     margin-bottom: 4.5rem;
   }
@@ -205,7 +238,7 @@ const hasRecruiters = recruiters && recruiters.length > 0;
     border-bottom-right-radius: 6px;
   }
 
-  .styled-table td {
+  :global(.styled-table td) {
     padding: 1.1rem 1.25rem;
     border-bottom: 1px solid var(--border);
     color: var(--text);
@@ -215,7 +248,7 @@ const hasRecruiters = recruiters && recruiters.length > 0;
   /* Responsive Table Styling for Small Screens */
   @media (max-width: 768px) {
     .styled-table th,
-    .styled-table td {
+    :global(.styled-table td) {
       padding: 0.8rem 0.75rem;
       font-size: 0.88rem;
     }
@@ -227,7 +260,7 @@ const hasRecruiters = recruiters && recruiters.length > 0;
     }
 
     .styled-table th,
-    .styled-table td {
+    :global(.styled-table td) {
       padding: 0.65rem 0.5rem;
       font-size: 0.8rem;
     }
@@ -238,37 +271,37 @@ const hasRecruiters = recruiters && recruiters.length > 0;
     }
   }
 
-  .styled-table tbody tr:last-child td {
+  :global(.styled-table tbody tr:last-child td) {
     border-bottom: none;
   }
 
-  .styled-table tbody tr {
+  :global(.styled-table tbody tr) {
     transition: background-color 0.2s ease;
   }
 
-  .styled-table tbody tr:hover {
+  :global(.styled-table tbody tr:hover) {
     background-color: rgba(57, 73, 171, 0.04);
   }
 
-  .sr-no {
+  :global(.sr-no) {
     font-weight: 600;
     color: var(--muted);
   }
 
-  .academic-year {
+  :global(.academic-year) {
     font-weight: 700;
     color: var(--navy-950);
   }
 
-  .ctc {
+  :global(.ctc) {
     font-weight: 600;
   }
 
-  .highest-ctc {
+  :global(.highest-ctc) {
     color: var(--green-700);
   }
 
-  .average-ctc {
+  :global(.average-ctc) {
     color: var(--blue-700);
   }
 
@@ -320,7 +353,7 @@ const hasRecruiters = recruiters && recruiters.length > 0;
     animation-play-state: paused;
   }
 
-  .recruiter-logo {
+  :global(.recruiter-logo) {
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -337,12 +370,12 @@ const hasRecruiters = recruiters && recruiters.length > 0;
       box-shadow 0.3s ease;
   }
 
-  .recruiter-logo:hover {
+  :global(.recruiter-logo:hover) {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   }
 
-  .recruiter-logo img {
+  :global(.recruiter-logo img) {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
@@ -351,12 +384,12 @@ const hasRecruiters = recruiters && recruiters.length > 0;
     transition: all 0.3s ease;
   }
 
-  .recruiter-logo:hover img {
+  :global(.recruiter-logo:hover img) {
     filter: grayscale(0%);
     opacity: 1;
   }
 
-  .company-text {
+  :global(.company-text) {
     font-weight: 700;
     color: var(--navy-950);
     font-size: 0.9rem;
@@ -374,6 +407,45 @@ const hasRecruiters = recruiters && recruiters.length > 0;
     100% {
       /* Shift by exactly half (1 list) plus half of the gap offset */
       transform: translateX(calc(-50% - 2rem));
+    }
+  }
+
+  /* Skeleton Loading Styles */
+  .placements-loader-container {
+    width: 100%;
+    margin-bottom: 4.5rem;
+  }
+
+  .skeleton-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .skeleton-header {
+    width: 280px;
+    height: 36px;
+    background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+    background-size: 200% 100%;
+    animation: loading-skeleton 1.5s infinite;
+    border-radius: 6px;
+  }
+
+  .skeleton-table {
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+    background-size: 200% 100%;
+    animation: loading-skeleton 1.5s infinite;
+    border-radius: 12px;
+  }
+
+  @keyframes loading-skeleton {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
     }
   }
 </style>
