@@ -26,7 +26,27 @@ const faculty = await getCollection("faculty");
           <img src="/assets/img/dr-smita-shukla.webp" />
         </div><div>
           <h3>Dr. Smita Shukla</h3>
-          <p>Profile content here</p>
+          <p>
+            <strong
+              >Ph.D. (Management), NET (Management), M.B.A. (Finance), M.A.
+              (Economics)</strong
+            >
+          </p>
+          <p>
+            Prof. (Dr.) Smita Shukla is the Director of Alkesh Dinesh Mody
+            Institute for Financial and Management Studies, University of
+            Mumbai. With expertise in Business and Finance, her academic and
+            research interests include private equity, banking, foreign direct
+            investment, social sector entrepreneurship, inclusive organizations,
+            ESG, sustainable finance, investor behaviour, and turnaround
+            strategies. Her research profile is indexed on Scopus and Google
+            Scholar, with publications covering areas such as banking
+            performance, credit risk, gold investor behaviour, Indian outward
+            FDI, ESG ratings, sustainable finance, and management case studies.
+            She has also guided doctoral research and contributed actively to
+            academic leadership, institutional development, and management
+            education.
+          </p>
         </div>
       </article>
     </div>
@@ -58,7 +78,11 @@ const faculty = await getCollection("faculty");
 </BaseLayout>
 
 <script>
-  import { fetchSheet, normalizeDriveLink, parseRichText } from "../../utils/googleSheets.js";
+  import {
+    fetchSheet,
+    normalizeDriveLink,
+    parseRichText,
+  } from "../../utils/googleSheets.js";
 
   const escapeHtml = (value) =>
     String(value || "")
@@ -102,7 +126,8 @@ const faculty = await getCollection("faculty");
     `;
   };
 
-  const getField = (row, names) => names.map((name) => row[name]).find(Boolean) || "";
+  const getField = (row, names) =>
+    names.map((name) => row[name]).find(Boolean) || "";
 
   document.addEventListener("DOMContentLoaded", async () => {
     const faculty = await fetchSheet("Faculty");
@@ -114,10 +139,27 @@ const faculty = await getCollection("faculty");
             const name = getField(f, ["Name"]);
             const designation = getField(f, ["Designation"]);
             const email = getField(f, ["Email"]);
-            const photo = getField(f, ["PhotoLink", "ProfilePic", "ProfilePicLink"]);
-            const expertise = getField(f, ["Expertise", "AreasOfExpertise", "Areas of Expertise", "Interests"]);
-            const publications = getField(f, ["ResearchPublications", "Research Publications", "Publications"]);
-            const awards = getField(f, ["AwardsHonours", "Awards & Honours", "Awards"]);
+            const photo = getField(f, [
+              "PhotoLink",
+              "ProfilePic",
+              "ProfilePicLink",
+            ]);
+            const expertise = getField(f, [
+              "Expertise",
+              "AreasOfExpertise",
+              "Areas of Expertise",
+              "Interests",
+            ]);
+            const publications = getField(f, [
+              "ResearchPublications",
+              "Research Publications",
+              "Publications",
+            ]);
+            const awards = getField(f, [
+              "AwardsHonours",
+              "Awards & Honours",
+              "Awards",
+            ]);
             const profile = getField(f, ["ProfileLink", "CVLink"]);
 
             return `
