@@ -28,6 +28,27 @@ const glance = [
   { label: 'Affiliation', value: 'University of Mumbai', icon: 'ti ti-building-columns' },
   { label: 'Admission route', value: programme.admissionRoute || 'As per University of Mumbai and institute notifications.', icon: 'ti ti-route' }
 ];
+
+const placementSections = {
+  'msc-finance': {
+    placementsSheet: 'MSc_Placements',
+    recruitersSheet: 'MSc_Recruiters',
+    placementTitle: 'MSc. Students Placed',
+    placementDescription: 'Our students are placed in top tier financial institutions, analytics firms and corporate treasury offices. Here is the academic year-wise placement overview.',
+    recruitersTitle: 'Key Recruiters',
+    recruitersDescription: 'Leading organizations that regularly recruit from our MSc. Finance programme.'
+  },
+  mms: {
+    placementsSheet: 'MMS_Placements',
+    recruitersSheet: 'MMS_Recruiters',
+    placementTitle: 'MMS Students Placed',
+    placementDescription: 'Our MMS students are placed across management, finance, marketing, HR, operations, analytics, and allied business roles. Here is the academic year-wise placement overview.',
+    recruitersTitle: 'Key Recruiters',
+    recruitersDescription: 'Leading organizations that recruit from our MMS programme.'
+  }
+};
+
+const placementSection = placementSections[programme.slug];
 ---
 <BaseLayout title={`${programme.title} | ADMIFMS`} description={programme.description}>
   <PageHero eyebrow="Programme" title={programme.title} subtitle={programme.description} actions={[{ href: '/admissions/', label: 'Apply / Enquire' }, { href: '/contact/', label: 'Programme Contact', variant: 'secondary' }]} />
@@ -90,10 +111,10 @@ const glance = [
     </div>
   </section>
   
-  {programme.slug === 'msc-finance' && (
+  {placementSection && (
     <section class="section">
       <div class="container">
-        <MScPlacements />
+        <MScPlacements {...placementSection} />
       </div>
     </section>
   )}

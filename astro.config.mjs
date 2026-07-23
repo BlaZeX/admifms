@@ -4,5 +4,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://admi.mu.ac.in',
   output: 'static',
-  integrations: [sitemap()]
+  integrations: [sitemap()],
+  vite: {
+    server: {
+      allowedHosts: ['code.tiwari.co']
+    }
+  }
 });

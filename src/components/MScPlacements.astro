@@ -1,13 +1,25 @@
-<div class="msc-placements-wrapper" id="msc-placements-root">
+---
+const {
+  placementsSheet = "MSc_Placements",
+  recruitersSheet = "MSc_Recruiters",
+  placementTitle = "MSc. Students Placed",
+  placementDescription = "Our students are placed in top tier financial institutions, analytics firms and corporate treasury offices. Here is the academic year-wise placement overview.",
+  recruitersTitle = "Key Recruiters",
+  recruitersDescription = "Leading organizations that regularly recruit from our MSc. Finance programme.",
+} = Astro.props;
+---
+
+<div
+  class="msc-placements-wrapper"
+  id="msc-placements-root"
+  data-placements-sheet={placementsSheet}
+  data-recruiters-sheet={recruitersSheet}
+>
   <!-- Placements Section (Dynamically Loaded) -->
   <div id="placements-container" class="placements-section hidden">
     <div class="section-header">
-      <h2>MSc. Students Placed</h2>
-      <p>
-        Our students are placed in top tier financial institutions, analytics
-        firms and corporate treasury offices. Here is the academic year-wise
-        placement overview.
-      </p>
+      <h2>{placementTitle}</h2>
+      <p>{placementDescription}</p>
     </div>
 
     <div class="table-card">
@@ -32,11 +44,8 @@
   <!-- Recruiters Section (Dynamically Loaded) -->
   <div id="recruiters-container" class="recruiters-section hidden">
     <div class="section-header">
-      <h2>Key Recruiters</h2>
-      <p>
-        Leading organizations that regularly recruit from our MSc. Finance
-        programme.
-      </p>
+      <h2>{recruitersTitle}</h2>
+      <p>{recruitersDescription}</p>
     </div>
 
     <div class="marquee-wrapper">
@@ -60,9 +69,15 @@
 
   const loadDynamicData = async () => {
     try {
+      const root = document.getElementById("msc-placements-root");
+      const placementsSheet =
+        root?.dataset.placementsSheet || "MSc_Placements";
+      const recruitersSheet =
+        root?.dataset.recruitersSheet || "MSc_Recruiters";
+
       const [placements, recruiters] = await Promise.all([
-        fetchSheet("MSc_Placements"),
-        fetchSheet("MSc_Recruiters"),
+        fetchSheet(placementsSheet),
+        fetchSheet(recruitersSheet),
       ]);
 
       const placementsContainer = document.getElementById(
