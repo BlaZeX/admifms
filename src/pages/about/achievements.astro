@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import InfoCard from '../../components/InfoCard.astro';
+import CTASection from '../../components/CTASection.astro';
+
+const recognitions = [
+  {
+    title: 'UDRF First Rank',
+    text: 'Awarded First Rank under the University Department Ranking Framework in the Best Institute category for Management, Sub-Campus, Model College and Institutions.',
+  },
+  {
+    title: 'Best Academic Department for Administration',
+    text: 'Secured First Rank as Best Academic Department for Administration under the University Department Ranking Framework.',
+  },
+  {
+    title: 'MCX Award 2025',
+    text: 'Recognized as Best Supporting Partner in Education, Awareness, and Financial Literacy.',
+  },
+  {
+    title: 'ISTD Academic Partner Recognition',
+    text: 'Received Best Academic Partner recognition from ISTD, Mumbai Chapter.',
+  },
+  {
+    title: 'Skill Development Leadership Award',
+    text: 'Recognized with the Skill Development Leadership Award 2025 by the World HRD Congress.',
+  },
+  {
+    title: 'National B-School Rankings',
+    text: 'Ranked among leading Government B-Schools by reputed national surveys including The Week, India Today, and Fortune India.',
+  },
+];
+
+const strengths = [
+  {
+    title: 'NEP 2020 Aligned Academic Framework',
+    text: 'A progressive and industry-oriented curriculum emphasizing holistic education, experiential learning, multidisciplinary exposure, and outcome-based skill development.',
+  },
+  {
+    title: 'Strong Industry-Academia Interface',
+    text: 'Industry engagement through initiatives such as Summer Internship Awards, Budget Prediction Competition, Career-pe-Charcha, Campus to Corporate Lecture Series, Corporate Mock Interviews, and ADM Memorial Lectures.',
+  },
+  {
+    title: 'Comprehensive Skill Development Ecosystem',
+    text: 'Regular employability enhancement through Advanced MS-Excel Training, professional development workshops, communication enhancement sessions, and corporate readiness initiatives.',
+  },
+  {
+    title: 'Active Alumni Engagement and Mentorship',
+    text: 'A supportive alumni network contributing through mentoring sessions, Coffee with Alumni interactions, career guidance, internships, networking opportunities, and industry knowledge sharing.',
+  },
+  {
+    title: 'Dedicated Placement Support',
+    text: 'A proactive Placement Cell with corporate collaborations across sectors, facilitating internships, live projects, industry interactions, and placement opportunities.',
+  },
+  {
+    title: 'Research-Oriented Academic Environment',
+    text: 'Faculty engagement in research fellowships, consultancy assignments, funded projects, publications, and socially relevant academic initiatives.',
+  },
+  {
+    title: 'Holistic Student Development',
+    text: 'A vibrant campus culture supported by faculty-mentored student committees, co-curricular activities, leadership opportunities, entrepreneurship initiatives, and social responsibility programmes.',
+  },
+];
+---
+
+<BaseLayout
+  title="Achievements and Institutional Strengths | ADMIFMS"
+  description="Achievements, recognitions, rankings, institutional strengths, and student development highlights of ADMIFMS."
+>
+  <PageHero
+    eyebrow="About ADMIFMS"
+    title="Achievements and Institutional Strengths"
+    subtitle="Recognitions, rankings, academic strengths, industry engagement, research culture, and student development initiatives at ADMIFMS."
+  />
+  <Breadcrumbs items={[{ label: 'About', href: '/about/' }, { label: 'Achievements' }]} />
+
+  <section class="section" id="recognitions">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Recognitions"
+        title="Awards and Rankings"
+        subtitle="Institute recognitions and ranking highlights published as approved institutional information."
+      />
+      <div class="grid cards-3">
+        {recognitions.map((item) => <InfoCard title={item.title} text={item.text} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="institutional-strengths">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Strengths"
+        title="Institutional Strengths"
+        subtitle="Academic, industry, research, placement, alumni, and student-development strengths that support the institute's learning environment."
+      />
+      <div class="grid cards-3">
+        {strengths.map((item) => <InfoCard title={item.title} text={item.text} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Explore ADMIFMS"
+    text="Learn more about the institute, programmes, admissions, and student life."
+    actions={[
+      { href: '/about/', label: 'Institute Overview' },
+      { href: '/programmes/', label: 'View Programmes', variant: 'secondary' },
+    ]}
+  />
+</BaseLayout>

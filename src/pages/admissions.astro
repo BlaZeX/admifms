@@ -8,6 +8,7 @@ import Timeline from "../components/Timeline.astro";
 import FAQList from "../components/FAQList.astro";
 import CTASection from "../components/CTASection.astro";
 import { programmes } from "../data/programmes.js";
+const mmsInstituteSeatsForm = "https://mms.admissions.admifms.in";
 const steps = [
   "Check programme eligibility",
   "Register on the University admission portal / Samarth portal if applicable",
@@ -52,6 +53,10 @@ const faqs = [
     title="Admissions"
     subtitle="Find programme-wise admission information, eligibility, process, documents, important dates, and contact details."
     actions={[
+      {
+        href: mmsInstituteSeatsForm,
+        label: "MMS Institute Seats Form",
+      },
       { href: "https://muugadmission.samarth.edu.in", label: "Samarth Portal" },
       { href: "/contact/", label: "Admission Enquiry", variant: "secondary" },
     ]}
@@ -63,6 +68,28 @@ const faqs = [
         Admission steps may vary by programme and academic year. Students must
         follow official University of Mumbai and institute notices.
       </p>
+    </div>
+  </section>
+  <section class="section institute-seats-section" id="mms-institute-level-seats">
+    <div class="container">
+      <div class="institute-seats-callout">
+        <div class="institute-seats-content">
+          <p class="callout-eyebrow">MMS Admissions</p>
+          <h2>Institute Level Seats Interest Registration</h2>
+          <p>
+            Students interested in MMS institute level seats can register their
+            interest through the admissions form.
+          </p>
+        </div>
+        <a
+          class="button button-primary institute-seats-button"
+          href={mmsInstituteSeatsForm}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Register Interest
+        </a>
+      </div>
     </div>
   </section>
   <section class="section" id="dates">

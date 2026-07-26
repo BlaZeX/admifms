@@ -51,9 +51,14 @@ const placementSections = {
 
 const placementSection = placementSections[programme.slug];
 const mmsInstituteSeatsForm = 'https://mms.admissions.admifms.in';
+const heroActions = [
+  ...(programme.slug === 'mms' ? [{ href: mmsInstituteSeatsForm, label: 'MMS Institute Seats Form', variant: 'secondary' }] : []),
+  { href: '/admissions/', label: 'Apply / Enquire', variant: programme.slug === 'mms' ? 'secondary' : 'primary' },
+  { href: '/contact/', label: 'Programme Contact', variant: 'secondary' }
+];
 ---
 <BaseLayout title={`${programme.title} | ADMIFMS`} description={programme.description}>
-  <PageHero eyebrow="Programme" title={programme.title} subtitle={programme.description} actions={[{ href: '/admissions/', label: 'Apply / Enquire' }, { href: '/contact/', label: 'Programme Contact', variant: 'secondary' }]} />
+  <PageHero eyebrow="Programme" title={programme.title} subtitle={programme.description} actions={heroActions} />
   <Breadcrumbs items={[{ label: 'Programmes', href: '/programmes/' }, { label: programme.shortTitle }]} />
   
   <section class="section">

@@ -8,38 +8,39 @@ import InfoCard from '../../components/InfoCard.astro';
 <BaseLayout title="Vision and Mission" description="Vision, mission, core values, academic objectives, and student development focus of ADMIFMS.">
   <PageHero eyebrow="About ADMIFMS" title="Vision and Mission" subtitle="A formal statement of academic direction, student development, and institutional values. Details may be refined by the institute." />
   <Breadcrumbs items={[{label:'About',href:'/about/'},{label:'Vision and Mission'}]} />
-  <section class="section"><div class="container two-column">
-  <article class="card">
-    <h2>Vision</h2>
-    <p>We believe in delivering the quality management education in a dynamic environment of mutual learning, teamwork and support. We believe in ingraining our students with spirit for excellence, community engagement, continuous learning, diversity inclusion, ethical values along with a global outlook.</p>
-  </article>
-  <article class="card">
-    <h2>Mission</h2>
-    <p>
-      <ul>
-      <li>Enhancing the domain knowledge, general awareness and  competence of students to analyse, interpret and evaluate business issues and problems</li>
-      <li>Enhancing the ability of students to put into practice effective communication skills for management domain</li>
-      <li>Enhancing the ability of students to develop professionalism, organizational skills, ability to make decisions, and solve problems</li>
-      <li>Enhancing the ability and awareness of students on entrepreneurship and related opportunities</li>
-      <li>Enhancing the core social values in  students for the underprivileged, the differently abled and the discriminated and appreciation for diversity inclusion</li>
-      </ul>
-    </p>
-  </article>
-  <article class="card">
-    <h2>Core Values</h2>
-    <p>
-      We believe in delivering the highest quality management education to our students in a dynamic environment of mutual learning, teamwork and support. We believe in embossing our students with commitment to affordability, excellence, community engagement, assurance of learning, diversity, globalization, ethical and social responsibility, knowledge creation and application, and success.
-      <ul>
-        <li><strong>Achievement:</strong> It includes attaining personal success in a range of human endeavors, pursuing individual excellence, and displaying pride and satisfaction in personal achievement and the achievements of organization.</li>
-        <li><strong>Creativity:</strong> It includes valuing original ideas, demonstrating enterprise and innovation, and engaging and responding to the aesthetic qualities of the created and constructed world.</li>
-        <li><strong>Excellence:</strong> It includes striving for excellence in teaching through academic rigor and relevance.</li>
-        <li><strong>Integrity:</strong> It includes faithfulness, truth, discernment, and acting honestly, ethically and consistently.</li>
-        <li><strong>Resilience:</strong>  It includes recognizing strengths and maximizing potential; developing self-management, self-confidence and self-respect; and nurturing optimism, joy, perseverance, wellbeing and peace.</li>
-        <li><strong>Responsibility:</strong>  It includes stewardship, and accepting both individual and collective responsibility for contributing to sustainable community and its development.</li>
-      </ul>
-    </p>
-  </article>
-  </div></section>
+  <section class="section">
+    <div class="container two-column">
+      <article class="card">
+        <h2>Vision</h2>
+        <p>We believe in delivering the quality management education in a dynamic environment of mutual learning, teamwork and support. We believe in ingraining our students with spirit for excellence, community engagement, continuous learning, diversity inclusion, ethical values along with a global outlook.</p>
+      </article>
+      <article class="card">
+        <h2>Mission</h2>
+        <ul>
+          <li>Enhancing the domain knowledge, general awareness and competence of students to analyse, interpret and evaluate business issues and problems.</li>
+          <li>Enhancing the ability of students to put into practice effective communication skills for management domain.</li>
+          <li>Enhancing the ability of students to develop professionalism, organizational skills, ability to make decisions, and solve problems.</li>
+          <li>Enhancing the ability and awareness of students on entrepreneurship and related opportunities.</li>
+          <li>Enhancing the core social values in students for the underprivileged, the differently abled and the discriminated and appreciation for diversity inclusion.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="core-values">
+    <div class="container">
+      <SectionHeader title="Core Values" />
+      <p>We believe in delivering the highest quality management education to our students in a dynamic environment of mutual learning, teamwork and support. We believe in embossing our students with commitment to affordability, excellence, community engagement, assurance of learning, diversity, globalization, ethical and social responsibility, knowledge creation and application, and success.</p>
+      <div class="grid cards-3">
+        <InfoCard title="Achievement" text="Attaining personal success in a range of human endeavors, pursuing individual excellence, and displaying pride and satisfaction in personal achievement and the achievements of organization." />
+        <InfoCard title="Creativity" text="Valuing original ideas, demonstrating enterprise and innovation, and engaging and responding to the aesthetic qualities of the created and constructed world." />
+        <InfoCard title="Excellence" text="Striving for excellence in teaching through academic rigor and relevance." />
+        <InfoCard title="Integrity" text="Faithfulness, truth, discernment, and acting honestly, ethically and consistently." />
+        <InfoCard title="Resilience" text="Recognizing strengths and maximizing potential; developing self-management, self-confidence and self-respect; and nurturing optimism, joy, perseverance, wellbeing and peace." />
+        <InfoCard title="Responsibility" text="Stewardship, and accepting both individual and collective responsibility for contributing to sustainable community and its development." />
+      </div>
+    </div>
+  </section>
   <section class="section">
     <div class="container">
       <SectionHeader title="Institute's Logo" />
