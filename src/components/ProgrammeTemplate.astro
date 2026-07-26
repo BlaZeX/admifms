@@ -44,11 +44,13 @@ const placementSections = {
     placementTitle: 'MMS Students Placed',
     placementDescription: 'Our MMS students are placed across management, finance, marketing, HR, operations, analytics, and allied business roles. Here is the academic year-wise placement overview.',
     recruitersTitle: 'Key Recruiters',
-    recruitersDescription: 'Leading organizations that recruit from our MMS programme.'
+    recruitersDescription: 'Leading organizations that recruit from our MMS programme.',
+    recruiterMarqueeMode: 'scaled'
   }
 };
 
 const placementSection = placementSections[programme.slug];
+const mmsInstituteSeatsForm = 'https://mms.admissions.admifms.in';
 ---
 <BaseLayout title={`${programme.title} | ADMIFMS`} description={programme.description}>
   <PageHero eyebrow="Programme" title={programme.title} subtitle={programme.description} actions={[{ href: '/admissions/', label: 'Apply / Enquire' }, { href: '/contact/', label: 'Programme Contact', variant: 'secondary' }]} />
@@ -110,6 +112,31 @@ const placementSection = placementSections[programme.slug];
       </aside>
     </div>
   </section>
+
+  {programme.slug === 'mms' && (
+    <section class="section institute-seats-section" id="mms-institute-level-seats">
+      <div class="container">
+        <div class="institute-seats-callout">
+          <div class="institute-seats-content">
+            <p class="callout-eyebrow">MMS Admissions</p>
+            <h2>Institute Level Seats Interest Registration</h2>
+            <p>
+              Students interested in MMS institute level seats can register
+              their interest through the admissions form.
+            </p>
+          </div>
+          <a
+            class="button button-primary institute-seats-button"
+            href={mmsInstituteSeatsForm}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Register Interest
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
   
   {placementSection && (
     <section class="section">

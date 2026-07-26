@@ -6,6 +6,7 @@ const {
   placementDescription = "Our students are placed in top tier financial institutions, analytics firms and corporate treasury offices. Here is the academic year-wise placement overview.",
   recruitersTitle = "Key Recruiters",
   recruitersDescription = "Leading organizations that regularly recruit from our MSc. Finance programme.",
+  recruiterMarqueeMode = "fixed",
 } = Astro.props;
 ---
 
@@ -14,6 +15,7 @@ const {
   id="msc-placements-root"
   data-placements-sheet={placementsSheet}
   data-recruiters-sheet={recruitersSheet}
+  data-recruiter-marquee-mode={recruiterMarqueeMode}
 >
   <!-- Placements Section (Dynamically Loaded) -->
   <div id="placements-container" class="placements-section hidden">
@@ -120,6 +122,11 @@ const {
       if (recruiters && recruiters.length > 0) {
         const marquee = document.getElementById("recruiters-marquee");
         if (marquee) {
+          const recruiterCount = recruiters.length;
+          const duration =
+            root?.dataset.recruiterMarqueeMode === "scaled"
+              ? Math.min(Math.max(recruiterCount * 2.4, 45), 240)
+              : 30;
           const recruiterHtml = recruiters
             .map((recruiter) => {
               const logoUrl =
@@ -143,6 +150,11 @@ const {
 
           // Duplicate the list of logos for infinite marquee effect
           marquee.innerHTML = recruiterHtml + recruiterHtml;
+          marquee.style.setProperty("--marquee-duration", `${duration}s`);
+          marquee.setAttribute(
+            "aria-label",
+            `${recruiterCount} recruiters`,
+          );
           recruitersContainer.classList.remove("hidden");
         }
       }
@@ -325,7 +337,7 @@ const {
     overflow: hidden;
     position: relative;
     width: 100%;
-    padding: 2.25rem 0;
+    padding: 1.75rem 0;
     background-color: var(--surface-soft);
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -357,8 +369,8 @@ const {
 
   .marquee-content {
     display: flex;
-    gap: 4rem;
-    animation: marquee-loop 30s linear infinite;
+    gap: 2.25rem;
+    animation: marquee-loop var(--marquee-duration, 60s) linear infinite;
     white-space: nowrap;
     will-change: transform;
     align-items: center;
@@ -373,8 +385,8 @@ const {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 160px;
-    height: 70px;
+    width: 148px;
+    height: 66px;
     padding: 0.5rem;
     background-color: #ffffff;
     border: 1px solid var(--border);
@@ -421,7 +433,7 @@ const {
     }
     100% {
       /* Shift by exactly half (1 list) plus half of the gap offset */
-      transform: translateX(calc(-50% - 2rem));
+      transform: translateX(calc(-50% - 1.125rem));
     }
   }
 

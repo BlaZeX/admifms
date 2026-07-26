@@ -569,6 +569,51 @@ summary:focus-visible {
   border-top: 5px solid var(--gold-500);
 }
 
+.institute-seats-section {
+  background-color: #ffffff;
+}
+
+.institute-seats-callout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: center;
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  border: 1px solid rgba(57, 73, 171, 0.22);
+  border-left: 7px solid var(--gold-500);
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, rgba(255, 193, 7, 0.12), rgba(57, 73, 171, 0.08)),
+    #ffffff;
+  box-shadow: rgba(2, 4, 56, 0.1) 0 12px 34px;
+}
+
+.callout-eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--blue-700);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.institute-seats-content h2 {
+  margin-bottom: 0.6rem;
+  font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+}
+
+.institute-seats-content p:last-child {
+  max-width: 720px;
+  margin-bottom: 0;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.institute-seats-button {
+  min-width: 190px;
+  box-shadow: rgba(2, 4, 56, 0.18) 0 8px 18px;
+}
+
 .faculty-card {
   display: flex;
   flex-direction: column;
@@ -1085,6 +1130,12 @@ tr:nth-child(even) {
 
   .page-hero {
     padding: 3.6rem 0;
+  }
+
+  .institute-seats-callout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    text-align: left;
   }
 
   .button {

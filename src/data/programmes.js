@@ -30,7 +30,7 @@ export const programmes = [
     duration: '2 years (4 Semesters)',
     mode: 'Full-time',
     eligibility: 'Graduate in any discipline with a minimum 50% marks (45% for reserved category) from a recognized university. Background in commerce, finance, engineering, mathematics, or statistics is preferred. Maths is compulsory at HSC or First Year Graduation level',
-    intake: '60 seats',
+    intake: '30 seats',
     admissionRoute: 'Pre-register on University of Mumbai admission portal and then appear for ICET (can be skipped if any other entrance test like MAH-MBA/MMS-CET, CAT, CMAT, etc. is available)',
     admissionProcess: 'Submit the online application form on Univeristy of Mumbai admission portal and select choice code 1114061. Qualified applicants will be informed for the Institute-level Entrance Test (if no other equivalent entrance test score is available) as per the official merit list schedule.',
     feesNote: 'Fees are structured in accordance with University of Mumbai guidelines for postgraduate programmes.',
