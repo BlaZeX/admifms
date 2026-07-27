@@ -13,7 +13,7 @@ export const programmes = [
     admissionProcess: 'Appear for state/national entrance CET, participate in CAP rounds conducted by the State CET Cell, and select ADMIFMS (College Code: 0630) for allotment.',
     feesNote: 'Fees are regulated and approved by the University of Mumbai.',
     contactInfo: 'MMS Office: office.mms@admi.mu.ac.in | Phone: 022-69302900/69302903/69302905',
-    description: 'Postgraduate management education with corporate readiness, functional-area learning, internships, and placement orientation.',
+    description: 'Postgraduate management education with corporate readiness, functional-area learning, internships and placement support.',
     overview: 'The MMS programme supports postgraduate management learning through academic coursework, practical exposure, industry interaction, and student development activities. Details of specialisations, intake, and applicable rules will be updated by the institute.',
     whoShouldApply: ['Graduates interested in management careers.', 'Students seeking functional-area exposure in management.', 'Applicants preparing for corporate, entrepreneurial, or higher academic pathways.'],
     curriculum: ['Management foundations and functional areas.', 'Case-based learning, projects, presentations, and industry sessions.', 'Specialisation details to be updated by the institute.'],

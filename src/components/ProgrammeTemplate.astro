@@ -41,19 +41,19 @@ const placementSections = {
   mms: {
     placementsSheet: 'MMS_Placements',
     recruitersSheet: 'MMS_Recruiters',
-    placementTitle: 'MMS Students Placed',
+    placementTitle: 'MMS Students Placement',
     placementDescription: 'Our MMS students are placed across management, finance, marketing, HR, operations, analytics, and allied business roles. Here is the academic year-wise placement overview.',
     recruitersTitle: 'Key Recruiters',
     recruitersDescription: 'Leading organizations that recruit from our MMS programme.',
-    recruiterMarqueeMode: 'scaled'
+    recruiterMarqueeMode: 'scaled',
+    recruiterDisplay: 'grid'
   }
 };
 
 const placementSection = placementSections[programme.slug];
 const mmsInstituteSeatsForm = 'https://mms.admissions.admifms.in';
 const heroActions = [
-  ...(programme.slug === 'mms' ? [{ href: mmsInstituteSeatsForm, label: 'MMS Institute Seats Form', variant: 'secondary' }] : []),
-  { href: '/admissions/', label: 'Apply / Enquire', variant: programme.slug === 'mms' ? 'secondary' : 'primary' },
+  ...(programme.slug === 'mms' ? [] : [{ href: '/admissions/', label: 'Apply / Enquire' }]),
   { href: '/contact/', label: 'Programme Contact', variant: 'secondary' }
 ];
 ---
@@ -124,10 +124,14 @@ const heroActions = [
         <div class="institute-seats-callout">
           <div class="institute-seats-content">
             <p class="callout-eyebrow">MMS Admissions</p>
-            <h2>Institute Level Seats Interest Registration</h2>
+            <h2>Admission against Vacant Seats</h2>
             <p>
-              Students interested in MMS institute level seats can register
-              their interest through the admissions form.
+              After all CAP rounds conducted by DTE. Eligibility for MMS: As
+              per DTE norms.
+            </p>
+            <p>
+              Admission will be granted as per the Inter-se-Merit based on DTE
+              norms.
             </p>
           </div>
           <a
@@ -136,7 +140,7 @@ const heroActions = [
             target="_blank"
             rel="noopener noreferrer"
           >
-            Register Interest
+            Apply Now
           </a>
         </div>
       </div>

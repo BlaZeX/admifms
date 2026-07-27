@@ -16,7 +16,7 @@ const albums = await getCollection('gallery');
 </BaseLayout>
 
 <script>
-  import { fetchSheet, normalizeDriveLink } from '../utils/googleSheets.js';
+  import { fetchSheet, normalizeDriveImageLink } from '../utils/googleSheets.js';
 
   document.addEventListener('DOMContentLoaded', async () => {
     const gallery = await fetchSheet('Gallery');
@@ -28,7 +28,7 @@ const albums = await getCollection('gallery');
           return `
             <article class="card gallery-card">
               <div>
-                ${item.ImageLink ? `<img src="${normalizeDriveLink(item.ImageLink)}" alt="${item.Title || ''}" class="image-placeholder" style="width:100%; height:200px; object-fit:cover; border:none; background:none; border-bottom:1px solid var(--border);"/>` : `<div class="image-placeholder" style="height:200px; display:grid; place-items:center; background:var(--surface-soft); color:var(--muted); font-weight:600; border-bottom:1px solid var(--border);">No Image</div>`}
+                ${item.ImageLink ? `<img src="${normalizeDriveImageLink(item.ImageLink)}" alt="${item.Title || ''}" class="image-placeholder" style="width:100%; height:200px; object-fit:cover; border:none; background:none; border-bottom:1px solid var(--border);"/>` : `<div class="image-placeholder" style="height:200px; display:grid; place-items:center; background:var(--surface-soft); color:var(--muted); font-weight:600; border-bottom:1px solid var(--border);">No Image</div>`}
                 <div style="padding: 1.5rem 1.5rem 0.5rem 1.5rem;">
                   <div class="card-meta" style="margin-bottom:0.6rem; display:flex; justify-content:space-between; align-items:center; width:100%;">
                     ${item.Category ? `<span class="badge" style="background:var(--blue-100); color:var(--navy-900);">${item.Category}</span>` : ''}
@@ -52,4 +52,3 @@ const albums = await getCollection('gallery');
     }
   });
 </script>
-

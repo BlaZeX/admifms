@@ -80,6 +80,7 @@ const faculty = await getCollection("faculty");
 <script>
   import {
     fetchSheet,
+    normalizeDriveImageLink,
     normalizeDriveLink,
     parseRichText,
   } from "../../utils/googleSheets.js";
@@ -165,7 +166,7 @@ const faculty = await getCollection("faculty");
             return `
           <article class="card faculty-card">
             <div class="faculty-card__header">
-              ${photo ? `<img src="${normalizeDriveLink(photo)}" alt="${escapeHtml(name)}" class="faculty-card__photo"/>` : `<div class="faculty-card__photo faculty-card__photo--initials" aria-hidden="true">${escapeHtml(name?.charAt(0) || "F")}</div>`}
+              ${photo ? `<img src="${normalizeDriveImageLink(photo)}" alt="${escapeHtml(name)}" class="faculty-card__photo"/>` : `<div class="faculty-card__photo faculty-card__photo--initials" aria-hidden="true">${escapeHtml(name?.charAt(0) || "F")}</div>`}
               <div>
                 <h3>${profile ? `<a href="${normalizeDriveLink(profile)}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a>` : escapeHtml(name)}</h3>
                 ${designation ? `<p class="faculty-card__designation">${escapeHtml(designation)}</p>` : ""}

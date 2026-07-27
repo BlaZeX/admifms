@@ -30,7 +30,7 @@ const recognitions = ['MCX Award 2025 for Best Supporting Partner in Education, 
 </BaseLayout>
 
 <script>
-  import { fetchSheet, normalizeDriveLink, parseRichText } from '../utils/googleSheets.js';
+  import { fetchSheet, normalizeDriveImageLink, normalizeDriveLink, parseRichText } from '../utils/googleSheets.js';
   
   document.addEventListener('DOMContentLoaded', async () => {
     // Alerts
@@ -66,7 +66,7 @@ const recognitions = ['MCX Award 2025 for Best Supporting Partner in Education, 
         <article class="card event-card">
           ${e.ImageLink ? `
             <a class="event-image-link" href="${normalizeDriveLink(e.ImageLink)}" target="_blank" rel="noopener noreferrer" style="display:block; margin-bottom:1rem; border-radius:0.5rem; overflow:hidden; aspect-ratio:16/9;">
-              <img src="${normalizeDriveLink(e.ImageLink)}" alt="${e.Title || 'Event Image'}" style="width:100%; height:100%; object-fit:cover; border:none; display:block; transition:transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1.0)'"/>
+              <img src="${normalizeDriveImageLink(e.ImageLink)}" alt="${e.Title || 'Event Image'}" style="width:100%; height:100%; object-fit:cover; border:none; display:block; transition:transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1.0)'"/>
             </a>
           ` : `
             <div class="image-placeholder" style="min-height:150px; margin-bottom:1rem; display:grid; place-items:center; background:linear-gradient(135deg, var(--blue-100), #fff); border:1px dashed #b8c7dc; border-radius:0.5rem;">${e.Category || 'Event'}</div>

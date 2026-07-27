@@ -37,14 +37,46 @@ export async function fetchSheet(sheetName) {
   }
 }
 
-export function normalizeDriveLink(url) {
+function getDriveFileId(url) {
   if (!url) return '';
   if (url.includes('drive.google.com/file/d/')) {
     const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
     if (fileIdMatch && fileIdMatch[1]) {
-      return `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
+      return fileIdMatch[1];
     }
   }
+
+  if (url.includes('drive.google.com/open') || url.includes('drive.google.com/uc')) {
+    try {
+      const parsed = new URL(url);
+      return parsed.searchParams.get('id') || '';
+    } catch {
+      return '';
+    }
+  }
+
+  return '';
+}
+
+export function normalizeDriveLink(url) {
+  if (!url) return '';
+
+  const fileId = getDriveFileId(url);
+  if (fileId) {
+    return `https://drive.google.com/file/d/${fileId}/view?usp=sharing`;
+  }
+
+  return url;
+}
+
+export function normalizeDriveImageLink(url) {
+  if (!url) return '';
+
+  const fileId = getDriveFileId(url);
+  if (fileId) {
+    return `https://drive.google.com/uc?export=view&id=${fileId}`;
+  }
+
   return url;
 }
 
@@ -69,7 +101,7 @@ export function parseRichText(text) {
 
   // 3. Markdown Links: [label](url) -> formatted anchor tag
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) => {
-    return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 600;">${label}</a>`;
+    return `<a href="${normalizeDriveLink(url)}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 600;">${label}</a>`;
   });
 
   // 4. Standard HTML Links: <a href="url"> -> inject secure & styling attributes
@@ -84,7 +116,7 @@ export function parseRichText(text) {
     if (!prefix.includes('style=') && !suffix.includes('style=')) {
       attrs += 'style="color: inherit; text-decoration: underline; font-weight: 600;" ';
     }
-    return `<a ${attrs}${prefix}href="${url}"${suffix}>`;
+    return `<a ${attrs}${prefix}href="${normalizeDriveLink(url)}"${suffix}>`;
   });
 
   // 5. Line Breaks: \n -> <br>
@@ -92,4 +124,3 @@ export function parseRichText(text) {
 
   return html;
 }
-

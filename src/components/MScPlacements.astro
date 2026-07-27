@@ -7,6 +7,7 @@ const {
   recruitersTitle = "Key Recruiters",
   recruitersDescription = "Leading organizations that regularly recruit from our MSc. Finance programme.",
   recruiterMarqueeMode = "fixed",
+  recruiterDisplay = "marquee",
 } = Astro.props;
 ---
 
@@ -16,6 +17,7 @@ const {
   data-placements-sheet={placementsSheet}
   data-recruiters-sheet={recruitersSheet}
   data-recruiter-marquee-mode={recruiterMarqueeMode}
+  data-recruiter-display={recruiterDisplay}
 >
   <!-- Placements Section (Dynamically Loaded) -->
   <div id="placements-container" class="placements-section hidden">
@@ -50,7 +52,25 @@ const {
       <p>{recruitersDescription}</p>
     </div>
 
-    <div class="marquee-wrapper">
+    <div class="recruiter-tools hidden" id="recruiter-tools">
+      <div>
+        <label class="recruiter-search-label" for="recruiter-search">Search recruiters</label>
+        <input id="recruiter-search" class="recruiter-search" type="search" placeholder="Search company name" />
+      </div>
+      <p class="recruiter-count" id="recruiter-count"></p>
+    </div>
+
+    <div class="recruiter-grid hidden" id="recruiter-grid">
+      <!-- Populated dynamically client-side -->
+    </div>
+
+    <div class="recruiter-grid-actions hidden" id="recruiter-grid-actions">
+      <button class="button button-secondary recruiter-toggle" id="recruiter-toggle" type="button">
+        Show all recruiters
+      </button>
+    </div>
+
+    <div class="marquee-wrapper" id="recruiter-marquee-wrapper">
       <div class="marquee-content" id="recruiters-marquee">
         <!-- Populated dynamically client-side -->
       </div>
@@ -67,7 +87,15 @@ const {
 </div>
 
 <script>
-  import { fetchSheet, normalizeDriveLink } from "../utils/googleSheets.js";
+  import { fetchSheet, normalizeDriveImageLink } from "../utils/googleSheets.js";
+
+  const escapeHtml = (value) =>
+    String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   const loadDynamicData = async () => {
     try {
@@ -120,8 +148,99 @@ const {
       }
 
       if (recruiters && recruiters.length > 0) {
+        const displayMode = root?.dataset.recruiterDisplay || "marquee";
         const marquee = document.getElementById("recruiters-marquee");
-        if (marquee) {
+        const marqueeWrapper = document.getElementById(
+          "recruiter-marquee-wrapper",
+        );
+        const grid = document.getElementById("recruiter-grid");
+        const tools = document.getElementById("recruiter-tools");
+        const search = document.getElementById("recruiter-search");
+        const count = document.getElementById("recruiter-count");
+        const actions = document.getElementById("recruiter-grid-actions");
+        const toggle = document.getElementById("recruiter-toggle");
+        const recruiterCount = recruiters.length;
+
+        if (displayMode === "grid" && grid) {
+          const initialLimit = 24;
+          let expanded = false;
+          let query = "";
+
+          const normalizedRecruiters = recruiters.map((recruiter) => {
+            const logoUrl = recruiter["Logo URL"] || recruiter["logo url"] || "";
+            const companyName =
+              recruiter["Company Name"] ||
+              recruiter["company name"] ||
+              "Recruiter";
+
+            return {
+              companyName,
+              companyNameSafe: escapeHtml(companyName),
+              logoUrl,
+            };
+          });
+
+          const renderGrid = () => {
+            const filtered = normalizedRecruiters.filter((recruiter) =>
+              recruiter.companyName.toLowerCase().includes(query),
+            );
+            const visible = expanded
+              ? filtered
+              : filtered.slice(0, initialLimit);
+
+            grid.innerHTML = visible
+              .map(
+                (recruiter) => `
+                  <div class="recruiter-logo recruiter-logo--grid" title="${recruiter.companyNameSafe}">
+                    ${
+                      recruiter.logoUrl
+                        ? `<img src="${normalizeDriveImageLink(recruiter.logoUrl)}" alt="${recruiter.companyNameSafe} Logo" loading="lazy" />`
+                        : `<span class="company-text">${recruiter.companyNameSafe}</span>`
+                    }
+                  </div>
+                `,
+              )
+              .join("");
+
+            if (count) {
+              const suffix =
+                filtered.length === recruiterCount
+                  ? `${recruiterCount} recruiters`
+                  : `${filtered.length} of ${recruiterCount} recruiters`;
+              count.textContent = suffix;
+            }
+
+            if (actions && toggle) {
+              const shouldShowToggle = filtered.length > initialLimit;
+              actions.classList.toggle("hidden", !shouldShowToggle);
+              toggle.textContent = expanded
+                ? "Show fewer recruiters"
+                : `Show all ${filtered.length} recruiters`;
+            }
+          };
+
+          if (marqueeWrapper) marqueeWrapper.classList.add("hidden");
+          grid.classList.remove("hidden");
+          if (tools) tools.classList.remove("hidden");
+
+          if (search) {
+            search.addEventListener("input", () => {
+              query = search.value.trim().toLowerCase();
+              expanded = Boolean(query);
+              renderGrid();
+            });
+          }
+
+          if (toggle) {
+            toggle.addEventListener("click", () => {
+              expanded = !expanded;
+              renderGrid();
+            });
+          }
+
+          renderGrid();
+          recruitersContainer.classList.remove("hidden");
+        } else if (marquee) {
           const recruiterCount = recruiters.length;
           const duration =
             root?.dataset.recruiterMarqueeMode === "scaled"
@@ -140,7 +259,7 @@ const {
                 <div class="recruiter-logo" title="${companyName}">
                   ${
                     logoUrl
-                      ? `<img src="${normalizeDriveLink(logoUrl)}" alt="${companyName} Logo" loading="lazy" />`
+                      ? `<img src="${normalizeDriveImageLink(logoUrl)}" alt="${companyName} Logo" loading="lazy" />`
                       : `<span class="company-text">${companyName}</span>`
                   }
                 </div>
@@ -332,6 +451,61 @@ const {
     color: var(--blue-700);
   }
 
+  .recruiter-tools {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .recruiter-search-label {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--navy-950);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .recruiter-search {
+    width: min(360px, 88vw);
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: var(--text);
+    font: inherit;
+  }
+
+  .recruiter-search:focus {
+    outline: 3px solid rgba(255, 193, 7, 0.45);
+    border-color: var(--blue-700);
+  }
+
+  .recruiter-count {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .recruiter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(142px, 1fr));
+    gap: 0.85rem;
+    padding: 1rem;
+    background-color: var(--surface-soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .recruiter-grid-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.25rem;
+  }
+
   /* Infinite Scrolling Marquee */
   .marquee-wrapper {
     overflow: hidden;
@@ -400,6 +574,11 @@ const {
   :global(.recruiter-logo:hover) {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  :global(.recruiter-logo--grid) {
+    width: 100%;
+    height: 76px;
   }
 
   :global(.recruiter-logo img) {
